@@ -1,0 +1,1 @@
+enum HomeContentsType { GRID, LIST }

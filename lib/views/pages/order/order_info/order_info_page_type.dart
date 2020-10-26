@@ -1,0 +1,3 @@
+enum OrderInfoPageType {
+  CURRENT, HISTORY
+}

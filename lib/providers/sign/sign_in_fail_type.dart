@@ -1,0 +1,1 @@
+enum SignInFailType { IN_VALID_PHONE_NUMBER, IN_VALID_AUTH_CODE }

@@ -1,0 +1,139 @@
+name: pomangam_client_flutter
+description: A new Flutter application.
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+version: 1.0.0+19
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^0.1.3
+
+  provider: ^4.3.1
+
+  flutter_localizations:
+
+    sdk: flutter
+
+  intl: ^0.16.0
+
+  dio: ^3.0.10
+
+  shared_preferences: ^0.5.3+5
+
+  injector: ^1.0.8
+
+  carousel_slider: ^2.3.1
+
+  modal_progress_hud: ^0.1.3
+
+  transparent_image: ^1.0.0
+
+  flutter_html: ^0.11.1
+
+  json_annotation: ^3.0.1
+
+  pin_code_fields: ^6.0.0
+
+  sqflite: any
+
+  path: any
+
+  time: ^1.2.0
+
+  flutter_calendar_carousel: ^1.4.11
+
+  pull_to_refresh: ^1.6.2
+
+  url_launcher: 5.1.2
+
+  scrolling_page_indicator: ^0.1.2
+
+  cached_network_image: ^2.3.3
+
+  grouped_buttons: ^1.0.4
+
+  fluttertoast: ^7.1.1
+
+  sliding_up_panel: ^1.0.0
+
+  flutter_slidable: ^0.5.4
+
+  get: ^3.10.1
+
+  # google_maps_flutter: ^0.5.28+1 # app 용 (android, ios)
+
+  flutter_google_maps: 3.7.1 # web 용
+
+  bootpay_api: ^1.2.0
+
+  js: ^0.6.2
+
+  firebase_messaging: 5.1.5
+
+  firebase_core: ^0.4.0
+
+  shimmer: ^1.1.2
+
+  device_preview: ^0.4.7
+
+  firebase_crashlytics: ^0.1.4+1
+
+  package_info: ^0.4.3
+
+  flutter_staggered_animations: ^0.1.2
+
+  flutter_animation_set: ^0.0.4
+
+  adaptive_dialog: ^0.8.0+1
+
+  device_info: ^0.4.2+7
+
+  google_fonts: ^1.1.0
+
+  badges: ^1.1.1
+
+  persistent_bottom_nav_bar: ^2.0.5
+
+  kakao_flutter_sdk: ^0.5.2
+
+  super_tooltip: ^0.9.0
+
+  story_viewer: ^0.0.18
+
+  tutorial_coach_mark: ^0.5.1
+
+  flutter_rating_bar: ^3.0.1+1
+
+  multi_image_picker: ^4.7.14
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  intl_translation: ^0.17.1
+
+  build_runner: ^1.0.0
+
+  json_serializable: ^3.2.5
+
+  flutter_launcher_icons: ^0.7.3
+
+
+flutter_icons:
+  android: "launcher_icon"
+
+  ios: true
+
+  image_path: "assets/logo3.png"
+
+flutter:
+
+  uses-material-design: true
+
+  assets:
+    - assets/

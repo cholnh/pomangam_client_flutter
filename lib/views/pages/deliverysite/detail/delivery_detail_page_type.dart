@@ -1,0 +1,1 @@
+enum DeliveryDetailPageType { FROM_CART, FROM_DEFAULT, FROM_ORDER_INFO }

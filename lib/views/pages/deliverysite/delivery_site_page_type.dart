@@ -1,0 +1,1 @@
+enum DeliverySitePageType { FROM_INIT }

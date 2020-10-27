@@ -9,29 +9,30 @@ import 'package:provider/provider.dart';
 
 class ProductSubCategoryWidget extends StatelessWidget {
 
+  final bool pinned;
   final Function(int, int) onSelected;
-  final GlobalKey keyProductSubCategory;
   final ScrollController scrollController = ScrollController();
 
-  ProductSubCategoryWidget({this.keyProductSubCategory, this.onSelected}) {
-    SchedulerBinding.instance.addPostFrameCallback((_) async {
-      int selected = Get.context.read<ProductSubCategoryModel>().idxSelectedCategory;
-      int to = (selected < 4 ? 0 : selected) * 20;
-      scrollController.animateTo(
-          to.toDouble(),
-          duration: Duration(milliseconds: 200),
-          curve: Curves.easeInQuart
-      );
-    });
+  ProductSubCategoryWidget({this.pinned, this.onSelected}) {
+    // if(pinned) {
+    //   SchedulerBinding.instance.addPostFrameCallback((_) async {
+    //     int selected = Get.context.read<ProductSubCategoryModel>().idxSelectedCategory;
+    //     int to = (selected < 4 ? 0 : selected) * 20;
+    //     scrollController.animateTo(
+    //         to.toDouble(),
+    //         duration: Duration(milliseconds: 200),
+    //         curve: Curves.easeInQuart
+    //     );
+    //   });
+    // }
   }
 
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
-      key: keyProductSubCategory,
       backgroundColor: Theme.of(Get.context).backgroundColor,
-      floating: true,
-      pinned: true,
+      floating: pinned,
+      pinned: pinned,
       centerTitle: false,
       automaticallyImplyLeading: false,
       titleSpacing: 0,

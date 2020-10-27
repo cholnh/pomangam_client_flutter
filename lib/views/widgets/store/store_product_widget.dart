@@ -15,7 +15,7 @@ class StoreProductWidget extends StatelessWidget {
     return Consumer<ProductSummaryModel>(
       builder: (_, model, child) {
         if(model.isFetching) return _shimmer();
-        if(model.productSummaries.isEmpty) _empty();
+        if(model.productSummaries.isEmpty) return _empty();
         return SliverGrid(
           key: PmgKeys.storeProduct,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

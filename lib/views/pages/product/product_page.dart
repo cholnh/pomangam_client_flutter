@@ -38,9 +38,6 @@ class _ProductPageState extends State<ProductPage> {
 
   @override
   Widget build(BuildContext context) {
-
-    print('${MediaQuery.of(context).size.width}');
-
     ProductModel productModel = context.watch();
 
     return WillPopScope(

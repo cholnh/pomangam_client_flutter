@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:pomangam_client_flutter/domains/product/sub/category/product_sub_category.dart';
 import 'package:pomangam_client_flutter/providers/product/product_model.dart';
 import 'package:pomangam_client_flutter/providers/product/sub/product_sub_category_model.dart';
+import 'package:pomangam_client_flutter/views/widgets/product/custom/product_custom_image_part_widget.dart';
 import 'package:provider/provider.dart';
-import 'package:pomangam_client_flutter/views/widgets/product/custom/custom_2/product_custom_2_image_part_widget.dart';
 
 class ProductCustom2ImageWidget extends StatelessWidget {
 
@@ -24,7 +24,7 @@ class ProductCustom2ImageWidget extends StatelessWidget {
 
             if(subCategories.length != 2) {
               return Container(
-                height: 180,
+                height: 160,
                 child: Center(
                   child: Icon(Icons.error_outline),
                 ),
@@ -32,9 +32,9 @@ class ProductCustom2ImageWidget extends StatelessWidget {
             }
 
             return Container(
-              height: 180,
+              height: 160,
               margin: EdgeInsets.only(bottom: 0.0),
-              padding: EdgeInsets.only(left: 60.0, right: 60.0, bottom: 20.0, top: 20.0),
+              padding: EdgeInsets.only(left: 60.0, right: 60.0, bottom: 10.0, top: 10.0),
               color: Color.fromRGBO(0, 0, 0, 0.0),
               child: Container(
                 decoration: BoxDecoration(
@@ -45,7 +45,7 @@ class ProductCustom2ImageWidget extends StatelessWidget {
                 child: Row(
                   children: <Widget>[
                     Expanded(
-                      child: ProductCustom2ImagePartWidget(
+                      child: ProductCustomImagePartWidget(
                         isSelected: selected == 1,
                         category: subCategories[0],
                         borderRadius: BorderRadius.only(
@@ -56,7 +56,7 @@ class ProductCustom2ImageWidget extends StatelessWidget {
                       )
                     ),
                     Expanded(
-                      child: ProductCustom2ImagePartWidget(
+                      child: ProductCustomImagePartWidget(
                         isSelected: selected == 2,
                         category: subCategories[1],
                         borderRadius: BorderRadius.only(

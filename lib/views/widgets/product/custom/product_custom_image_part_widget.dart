@@ -5,7 +5,7 @@ import 'package:pomangam_client_flutter/_bases/constants/endpoint.dart';
 import 'package:pomangam_client_flutter/domains/product/sub/category/product_sub_category.dart';
 import 'package:pomangam_client_flutter/domains/product/sub/product_sub.dart';
 
-class ProductCustom4ImagePartWidget extends StatelessWidget {
+class ProductCustomImagePartWidget extends StatelessWidget {
 
   final double height;
   final bool isSelected;
@@ -13,7 +13,7 @@ class ProductCustom4ImagePartWidget extends StatelessWidget {
   final ProductSubCategory category;
   final BorderRadiusGeometry borderRadius;
 
-  ProductCustom4ImagePartWidget({this.height, this.isSelected, this.onTap, this.category, this.borderRadius});
+  ProductCustomImagePartWidget({this.height, this.isSelected, this.onTap, this.category, this.borderRadius});
 
   final Color borderColor = Colors.white;
   final double borderWidth = 2.5;

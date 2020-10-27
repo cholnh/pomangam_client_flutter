@@ -9,8 +9,6 @@ import 'package:provider/provider.dart';
 
 class ProductNormalWidget extends StatelessWidget {
 
-  final GlobalKey keyProductSubCategory = GlobalKey();
-
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
@@ -18,7 +16,7 @@ class ProductNormalWidget extends StatelessWidget {
       slivers: <Widget>[
         ProductContentsWidget(),
         ProductSubCategoryWidget(
-          keyProductSubCategory: keyProductSubCategory,
+          pinned: true,
           onSelected: _onCategoryItemSelected,
         ),
         ProductSubWidget(),
@@ -32,6 +30,5 @@ class ProductNormalWidget extends StatelessWidget {
   void _onCategoryItemSelected(int idxSelected, int idxProductSubCategory) {
     Get.context.read<ProductSubCategoryModel>().changeIdxSelectedCategory(idxSelected);
     Get.context.read<ProductModel>().changeIdxProductSubCategory(idxProductSubCategory == null ? 0 : idxProductSubCategory);
-    Scrollable.ensureVisible(keyProductSubCategory.currentContext, duration: Duration(milliseconds: 500), curve: Curves.ease);
   }
 }

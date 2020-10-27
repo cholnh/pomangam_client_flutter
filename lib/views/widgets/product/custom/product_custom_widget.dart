@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pomangam_client_flutter/_bases/constants/endpoint.dart';
 import 'package:pomangam_client_flutter/domains/product/product_type.dart';
 import 'package:pomangam_client_flutter/providers/product/product_model.dart';
 import 'package:pomangam_client_flutter/providers/product/sub/product_sub_category_model.dart';
@@ -11,14 +10,15 @@ import 'package:pomangam_client_flutter/views/widgets/product/custom/contents/pr
 import 'package:pomangam_client_flutter/views/widgets/product/custom/custom_2/product_custom_2_image_widget.dart';
 import 'package:pomangam_client_flutter/views/widgets/product/custom/custom_3/product_custom_3_image_widget.dart';
 import 'package:pomangam_client_flutter/views/widgets/product/custom/custom_4/product_custom_4_image_widget.dart';
+import 'package:pomangam_client_flutter/views/widgets/product/custom/custom_5/product_custom_5_image_widget.dart';
 import 'package:pomangam_client_flutter/views/widgets/product/sub/product_sub_category_widget.dart';
 import 'package:provider/provider.dart';
 
 class ProductCustomWidget extends StatelessWidget {
 
   final ProductType type;
-  final GlobalKey keyProductSubCategory = GlobalKey();
   final ScrollController scrollController = ScrollController();
+  final GlobalKey scrollTarget = GlobalKey();
 
   ProductCustomWidget({this.type});
 
@@ -38,9 +38,10 @@ class ProductCustomWidget extends StatelessWidget {
             slivers: <Widget>[
               ProductCustomContentsWidget(),
               ProductSubCategoryWidget(
-                keyProductSubCategory: keyProductSubCategory,
+                pinned: false,
                 onSelected: _onCategoryItemSelected,
               ),
+              SliverToBoxAdapter(key: scrollTarget, child: Container()),
               if(productModel.isProductFetching) _subShimmer()
               else ProductCustomSubWidget(),
               SliverToBoxAdapter(
@@ -68,6 +69,9 @@ class ProductCustomWidget extends StatelessWidget {
           onSelected: _onCategoryItemSelected,
         );
       case ProductType.CUSTOMIZING_5:
+        return ProductCustom5ImageWidget(
+          onSelected: _onCategoryItemSelected,
+        );
       case ProductType.CUSTOMIZING_6:
       default:
         return _shimmer();
@@ -75,8 +79,8 @@ class ProductCustomWidget extends StatelessWidget {
   }
 
   Widget _shimmer() => Padding(
-    padding: const EdgeInsets.only(top: 20, bottom: 20),
-    child: CustomShimmer(width: MediaQuery.of(Get.context).size.width-120, height: 140),
+    padding: const EdgeInsets.only(top: 10, bottom: 10),
+    child: CustomShimmer(width: MediaQuery.of(Get.context).size.width-120, height: 160),
   );
 
   Widget _subShimmer() => SliverToBoxAdapter(
@@ -103,7 +107,6 @@ class ProductCustomWidget extends StatelessWidget {
   void _onCategoryItemSelected(int idxSelected, int idxProductSubCategory) async {
     Get.context.read<ProductSubCategoryModel>().changeIdxSelectedCategory(idxSelected);
     Get.context.read<ProductModel>().changeIdxProductSubCategory(idxProductSubCategory == null ? 0 : idxProductSubCategory);
-    await scrollController.animateTo(100, duration: Duration(milliseconds: 500), curve: Curves.ease);
-    //Scrollable.ensureVisible(keyProductSubCategory.currentContext, duration: Duration(milliseconds: 500), curve: Curves.ease);
+    Scrollable.ensureVisible(scrollTarget.currentContext, duration: Duration(milliseconds: 500), curve: Curves.ease);
   }
 }

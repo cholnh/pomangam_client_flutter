@@ -39,6 +39,8 @@ class OrderInfoModel with ChangeNotifier {
 
     List<OrderResponse> fetched = [];
     if(isForceUpdate) {
+      curPage = Endpoint.defaultPage;
+      size = Endpoint.defaultSize;
       todayOrders.clear();
     }
     try {
@@ -53,7 +55,6 @@ class OrderInfoModel with ChangeNotifier {
             size: size
           )
         );
-        countTodayOrders = await _orderRepository.countToday(pn: signInModel.userInfo.phoneNumber);
       } else {
         if(fIdx == null) return;
         fetched = await _orderRepository.findToday(
@@ -63,7 +64,6 @@ class OrderInfoModel with ChangeNotifier {
               size: size
             )
         );
-        countTodayOrders = await _orderRepository.countToday(fIdx: fIdx);
       }
 
       if(fetched != null && fetched.isNotEmpty) {
@@ -80,6 +80,17 @@ class OrderInfoModel with ChangeNotifier {
     }
   }
 
+  Future<void> countToday() async {
+    SignInModel signInModel = Get.context.read();
+    if(signInModel.isSignIn()) {
+      countTodayOrders = await _orderRepository.countToday(pn: signInModel.userInfo.phoneNumber);
+    } else {
+      int fIdx = (await SharedPreferences.getInstance()).get(s.idxFcmToken);
+      if(fIdx == null) return;
+      countTodayOrders = await _orderRepository.countToday(fIdx: fIdx);
+    }
+  }
+
   /// model fetch all order
   Future<void> fetchAll({
     bool isForceUpdate = false
@@ -90,6 +101,9 @@ class OrderInfoModel with ChangeNotifier {
 
     List<OrderResponse> fetched = [];
     if(isForceUpdate) {
+      curPage = Endpoint.defaultPage;
+      size = Endpoint.defaultSize;
+      todayOrders.clear();
       allOrders.clear();
     }
     try {

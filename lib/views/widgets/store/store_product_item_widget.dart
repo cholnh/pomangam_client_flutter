@@ -8,6 +8,7 @@ import 'package:pomangam_client_flutter/_bases/constants/endpoint.dart';
 import 'package:pomangam_client_flutter/domains/product/product_summary.dart';
 import 'package:pomangam_client_flutter/providers/product/product_model.dart';
 import 'package:pomangam_client_flutter/views/pages/product/product_page.dart';
+import 'package:pomangam_client_flutter/views/widgets/_bases/custom_dialog_utils.dart';
 import 'package:provider/provider.dart';
 
 class StoreProductItemWidget extends StatelessWidget {
@@ -19,13 +20,25 @@ class StoreProductItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _navigateToProductPage(context),
-      child: Container(
-        key: key,
-        decoration: BoxDecoration(
-            border: Border.all(width: 0.3, color: Theme.of(Get.context).backgroundColor)
-        ),
-        child: kIsWeb ? _web() : _mobile(),
+      onTap: summary.isTempActive
+        ? () => _navigateToProductPage(context)
+        : () => DialogUtils.dialog(context, '품절되었습니다.'),
+      child: Stack(
+        children: [
+          Opacity(
+            opacity: summary.isTempActive ? 1.0 : 0.5,
+            child: Container(
+              key: key,
+              decoration: BoxDecoration(
+                border: Border.all(width: 0.3, color: Theme.of(Get.context).backgroundColor)
+              ),
+              child: kIsWeb ? _web() : _mobile(),
+            ),
+          ),
+          if(!summary.isTempActive) Center(
+              child: Text('품절', style: TextStyle(color: Colors.black, fontSize: 18.0, fontWeight: FontWeight.bold))
+          ),
+        ],
       ),
     );
   }
@@ -61,7 +74,7 @@ class StoreProductItemWidget extends StatelessWidget {
               Text('${summary.salePrice}', style: TextStyle(color: Colors.white, fontSize: 12.0, fontWeight: FontWeight.w500)),
             ],
           ),
-        )
+        ),
       ],
     );
   }

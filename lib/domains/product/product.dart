@@ -33,12 +33,14 @@ class Product extends EntityAuditing {
 
   ProductType productType;
 
+  bool isTempActive;
+
   Product({
     int idx, DateTime registerDate, DateTime modifyDate,
     this.idxStore, this.salePrice, this.productInfo,
     this.productCategoryTitle, this.cntLike, this.cntReply, this.sequence,
     this.productImageMainPath, this.productImageSubPaths, this.isLike, this.replies,
-    this.productSubCategories, this.productType
+    this.productSubCategories, this.productType, this.isTempActive
   }): super(idx: idx, registerDate: registerDate, modifyDate: modifyDate);
 
   factory Product.fromJson(Map<String, dynamic> json) => _$ProductFromJson(json);

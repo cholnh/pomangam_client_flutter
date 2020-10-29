@@ -16,7 +16,9 @@ class ProductSummary {
 
   ProductType productType;
 
-  ProductSummary({this.idx, this.salePrice, this.name, this.productImageMainPath, this.productType});
+  bool isTempActive;
+
+  ProductSummary({this.idx, this.salePrice, this.name, this.productImageMainPath, this.productType, this.isTempActive});
 
   factory ProductSummary.fromJson(Map<String, dynamic> json) => _$ProductSummaryFromJson(json);
   Map<String, dynamic> toJson() => _$ProductSummaryToJson(this);

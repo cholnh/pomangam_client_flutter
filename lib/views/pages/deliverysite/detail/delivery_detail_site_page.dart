@@ -53,10 +53,14 @@ class _DeliveryDetailSitePageState extends State<DeliveryDetailSitePage> {
         dIdx: widget.deliverySite.idx,
         forceUpdate: true
     );
+
     if(detailSiteModel.deliveryDetailSites.isNotEmpty) {
-      DeliveryDetailSite detailSite = detailSiteModel.deliveryDetailSites.first;
-      detailSiteModel.changeSelected(detailSite);
-      _changeCameraPosition(detailSite.latitude, detailSite.longitude);
+      if(detailSiteModel.userDeliveryDetailSite == null) {
+        detailSiteModel.changeSelected(detailSiteModel.deliveryDetailSites.first);
+      } else {
+        detailSiteModel.changeSelected(detailSiteModel.userDeliveryDetailSite);
+      }
+      _changeCameraPosition(detailSiteModel.selected.latitude, detailSiteModel.selected.longitude);
       detailSiteModel.deliveryDetailSites.forEach((DeliveryDetailSite detailSite) {
         _makeMarker(detailSite.latitude, detailSite.longitude);
       });

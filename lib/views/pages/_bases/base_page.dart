@@ -1,7 +1,6 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:pomangam_client_flutter/_bases/util/toast_utils.dart';
@@ -78,7 +77,9 @@ class _BasePageState extends State<BasePage> {
               break;
             case 1:
               context.read<HomeViewModel>().changeIsCurrent(false);
-              context.read<OrderInfoModel>().fetchToday(isForceUpdate: false);
+              context.read<OrderInfoModel>()
+                ..clear()
+                ..fetchToday(isForceUpdate: true);
               break;
             case 2:
               context.read<HomeViewModel>().changeIsCurrent(false);
@@ -90,9 +91,10 @@ class _BasePageState extends State<BasePage> {
   }
 
   Future<bool> _onWillPop() async {
-    if(_panelController.isPanelOpen) {
+    if(_panelController.isAttached && _panelController.isPanelOpen) {
       _panelController.close();
     }
+
     DateTime now = DateTime.now();
     if (currentBackPressTime == null ||
         now.difference(currentBackPressTime) > Duration(seconds: 2)) {

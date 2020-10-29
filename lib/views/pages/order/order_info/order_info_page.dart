@@ -58,6 +58,13 @@ class _OrderInfoPageState extends State<OrderInfoPage> with SingleTickerProvider
                   fontSize: 15, color: Theme.of(context).textTheme.headline1.color
                 ))),
               ],
+              onTap: (idx) async {
+                if(idx == 0) {
+                  await context.read<OrderInfoModel>().fetchToday(isForceUpdate: true);
+                } else if(idx == 1) {
+                  await context.read<OrderInfoModel>().fetchAll(isForceUpdate: true);
+                }
+              },
             ),
           )
         ),

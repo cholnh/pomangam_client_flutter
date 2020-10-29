@@ -57,7 +57,7 @@ class CustomRefresher extends StatelessWidget {
             child: Icon(Icons.autorenew, color: Theme.of(context).iconTheme.color)
           ),
           idleText: '',
-          idleIcon: _loadingWidget(isHeader: false),
+          idleIcon: null,
           failedText: '탭하여 다시 시도',
         ),
         controller: controller,

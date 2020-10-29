@@ -27,10 +27,12 @@ class ProductSub extends EntityAuditing {
   @JsonKey(ignore: true)
   bool isSelected = false;
 
+  bool isTempActive;
+
   ProductSub({
     this.idxStore, this.salePrice, this.productSubInfo, this.sequence,
     this.productSubCategory, this.numberMinimum, this.numberMaximum,
-    this.productImageMainPath, this.productImageSubPaths
+    this.productImageMainPath, this.productImageSubPaths, this.isTempActive
   });
 
   factory ProductSub.fromJson(Map<String, dynamic> json) => _$ProductSubFromJson(json);

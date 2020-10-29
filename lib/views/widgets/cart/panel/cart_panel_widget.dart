@@ -157,9 +157,7 @@ class CartPanelWidget extends StatelessWidget {
         orderModel.changeIsValidOrder(true);
         Get.context.read<CartModel>().clear();
         Get.context.read<SignInModel>().renewUserInfo();
-        Get.context.read<OrderInfoModel>()
-          ..clearToday()
-          ..fetchToday(isForceUpdate: true);
+        Get.context.read<OrderInfoModel>().countToday();
       } else {
         orderModel.vbankClear();
         Get.context.read<PgModel>().request(response);

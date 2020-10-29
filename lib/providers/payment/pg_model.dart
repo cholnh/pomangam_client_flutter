@@ -66,7 +66,7 @@ class PgModel with ChangeNotifier {
         // 주문성공
         Get.context.read<CartModel>().clear();
         Get.context.read<SignInModel>().renewUserInfo();
-        Get.context.read<OrderInfoModel>().fetchToday(isForceUpdate: true);
+        Get.context.read<OrderInfoModel>().countToday();
       }
     }
   }

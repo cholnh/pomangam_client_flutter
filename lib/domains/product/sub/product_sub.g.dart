@@ -22,6 +22,7 @@ ProductSub _$ProductSubFromJson(Map<String, dynamic> json) {
     productImageSubPaths: (json['productImageSubPaths'] as List)
         ?.map((e) => e as String)
         ?.toList(),
+    isTempActive: json['isTempActive'] as bool,
   )
     ..idx = json['idx'] as int
     ..registerDate = json['registerDate'] == null
@@ -46,4 +47,5 @@ Map<String, dynamic> _$ProductSubToJson(ProductSub instance) =>
       'numberMaximum': instance.numberMaximum,
       'productImageMainPath': instance.productImageMainPath,
       'productImageSubPaths': instance.productImageSubPaths,
+      'isTempActive': instance.isTempActive,
     };

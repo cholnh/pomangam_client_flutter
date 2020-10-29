@@ -57,10 +57,7 @@ class ProductSubItemWidget extends StatelessWidget {
     _setRadioFirstElement(context);
 
     return productSubCategory.productSubs.map((sub) {
-      return SizedBox(
-        height: 65,
-        child: _subButton(context, sub),
-      );
+      return _subButton(context, sub);
     }).toList();
   }
 

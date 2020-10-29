@@ -23,7 +23,7 @@ class _OrderInfoHistoryWidgetState extends State<OrderInfoHistoryWidget> {
 
   @override
   void initState() {
-    _refresh();
+    //_refresh();
     super.initState();
   }
 
@@ -31,7 +31,6 @@ class _OrderInfoHistoryWidgetState extends State<OrderInfoHistoryWidget> {
   Widget build(BuildContext context) {
     OrderInfoModel orderInfoModel = context.watch();
     if(orderInfoModel.isFetching) return _shimmerWidget();
-    if(orderInfoModel.allOrders.isEmpty) return _emptyWidget();
     return _itemsWidget(orderInfoModel.allOrders);
   }
 
@@ -95,13 +94,15 @@ class _OrderInfoHistoryWidgetState extends State<OrderInfoHistoryWidget> {
       controller: _refreshController,
       onLoading: _loading,
       onRefresh: _refresh,
-      child: SingleChildScrollView(
-        child: Column(
-          children: orders.map<Widget>((order) {
-            return OrderItemWidget(order: order, pageType: OrderInfoPageType.HISTORY);
-          }).toList()..add(SizedBox(height: 50))
-        )
-      ),
+      child: orders.isEmpty
+        ? _emptyWidget()
+        : SingleChildScrollView(
+            child: Column(
+              children: orders.map<Widget>((order) {
+                return OrderItemWidget(order: order, pageType: OrderInfoPageType.HISTORY);
+              }).toList()..add(SizedBox(height: 50))
+            )
+          ),
     );
   }
 

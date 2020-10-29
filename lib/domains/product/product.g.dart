@@ -40,6 +40,7 @@ Product _$ProductFromJson(Map<String, dynamic> json) {
         ?.toList(),
     productType:
         _$enumDecodeNullable(_$ProductTypeEnumMap, json['productType']),
+    isTempActive: json['isTempActive'] as bool,
   );
 }
 
@@ -61,6 +62,7 @@ Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
       'productSubCategories':
           instance.productSubCategories?.map((e) => e?.toJson())?.toList(),
       'productType': _$ProductTypeEnumMap[instance.productType],
+      'isTempActive': instance.isTempActive,
     };
 
 T _$enumDecode<T>(

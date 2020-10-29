@@ -8,7 +8,7 @@ Future<bool> orderDataInitialize() async
     name: 'orderDataInitialize',
     function: () async {
       OrderInfoModel orderInfoModel = Get.context.read<OrderInfoModel>();
-      await orderInfoModel.fetchToday();
+      await orderInfoModel.countToday();
       return true;
     }
 );

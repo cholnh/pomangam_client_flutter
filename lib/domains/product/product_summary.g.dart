@@ -14,6 +14,7 @@ ProductSummary _$ProductSummaryFromJson(Map<String, dynamic> json) {
     productImageMainPath: json['productImageMainPath'] as String,
     productType:
         _$enumDecodeNullable(_$ProductTypeEnumMap, json['productType']),
+    isTempActive: json['isTempActive'] as bool,
   );
 }
 
@@ -24,6 +25,7 @@ Map<String, dynamic> _$ProductSummaryToJson(ProductSummary instance) =>
       'name': instance.name,
       'productImageMainPath': instance.productImageMainPath,
       'productType': _$ProductTypeEnumMap[instance.productType],
+      'isTempActive': instance.isTempActive,
     };
 
 T _$enumDecode<T>(

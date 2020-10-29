@@ -4,6 +4,8 @@ import 'package:pomangam_client_flutter/_bases/constants/endpoint.dart';
 import 'package:pomangam_client_flutter/_bases/util/string_utils.dart';
 import 'package:pomangam_client_flutter/domains/product/sub/category/product_sub_category.dart';
 import 'package:pomangam_client_flutter/providers/product/product_model.dart';
+import 'package:pomangam_client_flutter/views/widgets/_bases/custom_dialog_utils.dart';
+import 'package:pomangam_client_flutter/views/widgets/product/sub/product_sub_item_tile_widget.dart';
 import 'package:provider/provider.dart';
 
 class ProductCustomSubItemWidget extends StatelessWidget {
@@ -31,35 +33,33 @@ class ProductCustomSubItemWidget extends StatelessWidget {
 
   List<Widget> _subButtonGroup(BuildContext context) {
     return productSubCategory.productSubs.map((sub) {
-      return GestureDetector(
-        onTap: () {
-          Provider.of<ProductModel>(context, listen: false).toggleProductSubIsSelected(
-            productSubCategory: productSubCategory,
-            subIdx: sub.idx,
-            isRadio: true
-          );
-        },
-        child: SizedBox(
-          height: 65,
-          child: ListTile(
-              selected: sub.isSelected,
-              contentPadding: EdgeInsets.only(left: 0.0, right: 15.0),
-              leading: SizedBox(
-                width: 90,
-                child: Image.network(
-                  '${Endpoint.serverDomain}/${sub.productImageMainPath}',
-                  fit: BoxFit.fill,
-                  errorBuilder: (context, url, error) => Icon(Icons.error_outline),
-                ),
-              ),
-              subtitle: sub?.productSubInfo?.description != null
-                  ? Text('${sub.productSubInfo.description} ${sub.productSubInfo?.subDescription ?? ''}', style: TextStyle(fontSize: 12.0))
-                  : null,
-
-              title: Text('${sub.productSubInfo?.name ?? ''}', style: TextStyle(fontSize: 13.0)),
-              trailing: Text('+ ${StringUtils.comma(sub?.salePrice)}원', style: TextStyle(fontSize: 13.0)),
+      return ProductSubItemTileWidget(
+          isActive: sub.isTempActive,
+          selected: sub.isSelected,
+          leading: SizedBox(
+            width: 90,
+            height: 65,
+            child: Image.network(
+              '${Endpoint.serverDomain}/${sub.productImageMainPath}',
+              fit: BoxFit.fill,
+              errorBuilder: (context, url, error) => Icon(Icons.error_outline),
+            ),
           ),
-        ),
+          title: '${sub.productSubInfo?.name ?? ''}',
+          subtitle: sub?.productSubInfo?.description != null
+            ? '${sub.productSubInfo.description ?? ''} ${sub.productSubInfo?.subDescription ?? ''}'
+            : null,
+          trailing: Text('+ ${StringUtils.comma(sub?.salePrice)}원', style: TextStyle(fontSize: 13.0, color: Colors.black)),
+          onTap: () {
+            context.read<ProductModel>().toggleProductSubIsSelected(
+                productSubCategory: productSubCategory,
+                subIdx: sub.idx,
+                isRadio: true
+            );
+          },
+          onInActiveTap: () {
+            DialogUtils.dialog(context, '품절되었습니다.');
+          },
       );
     }).toList();
   }

@@ -19,7 +19,7 @@ class Endpoint {
   static const Direction defaultDirection = Direction.DESC;
 
   /// Network
-  static final String serverDomain = 'http://192.168.123.106:9530/api/v1.2'; // 'https://poman.kr:9530/api/v1.2'; // 'http://192.168.123.105:9530/api/v1.2';
+  static final String serverDomain = 'https://poman.kr:9530/api/v1.2'; // 'https://poman.kr:9530/api/v1.2'; // 'http://192.168.123.105:9530/api/v1.2';
   static final int connectTimeout = 5000;
   static final int receiveTimeout = 3000;
   static final String guestOauthTokenHeader = 'Z3Vlc3Q6c1pFSl45RV1la2pqLnt2Yw==';

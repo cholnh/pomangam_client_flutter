@@ -52,10 +52,17 @@ class HomeContentsBarWidget extends StatelessWidget {
           var textMinute = m == 0 ? '' : '$m분 ';
           var textArrivalTime = '$h시 $textMinute' + (isNextDay ? '예약' : '도착');
           return InkWell(
-            child: Row(
-              children: <Widget>[
-                Text('$textArrivalTime$textArrivalDate', key: context.read<HelpModel>().keyButton2, style: const TextStyle(fontSize: 16.0, color: Colors.black)),
-                Icon(Icons.arrow_drop_down, color: Theme.of(Get.context).primaryColor)
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              key: Get.context.read<HelpModel>().keyButton2,
+              children: [
+                Row(
+                  children: [
+                    Text('$textArrivalTime', style: const TextStyle(fontSize: 15.0, color: Colors.black)),
+                    Icon(Icons.arrow_drop_down, color: Theme.of(Get.context).primaryColor)
+                  ],
+                ),
+                Text('$textArrivalDate', style: const TextStyle(fontSize: 11.0, color: Colors.grey)),
               ],
             ),
             onTap: () => _showModal(

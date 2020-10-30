@@ -7,10 +7,15 @@ import 'package:injector/injector.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:pomangam_client_flutter/_bases/initalizer/initializer.dart';
 import 'package:pomangam_client_flutter/_bases/util/toast_utils.dart';
+import 'package:pomangam_client_flutter/providers/advertisement/advertisement_model.dart';
 import 'package:pomangam_client_flutter/providers/cart/cart_model.dart';
 import 'package:pomangam_client_flutter/providers/order/order_info_model.dart';
 import 'package:pomangam_client_flutter/providers/order/order_model.dart';
+import 'package:pomangam_client_flutter/providers/order/time/order_time_model.dart';
+import 'package:pomangam_client_flutter/providers/sort/home_sort_model.dart';
+import 'package:pomangam_client_flutter/providers/store/store_summary_model.dart';
 import 'package:pomangam_client_flutter/views/pages/_bases/base_page.dart';
+import 'package:pomangam_client_flutter/views/widgets/_bases/custom_dialog_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:pomangam_client_flutter/domains/deliverysite/delivery_site.dart';
 import 'package:pomangam_client_flutter/domains/deliverysite/detail/delivery_detail_site.dart';
@@ -55,11 +60,7 @@ class _DeliveryDetailSitePageState extends State<DeliveryDetailSitePage> {
     );
 
     if(detailSiteModel.deliveryDetailSites.isNotEmpty) {
-      if(detailSiteModel.userDeliveryDetailSite == null) {
-        detailSiteModel.changeSelected(detailSiteModel.deliveryDetailSites.first);
-      } else {
-        detailSiteModel.changeSelected(detailSiteModel.userDeliveryDetailSite);
-      }
+      detailSiteModel.changeSelected(detailSiteModel.deliveryDetailSites.first);
       _changeCameraPosition(detailSiteModel.selected.latitude, detailSiteModel.selected.longitude);
       detailSiteModel.deliveryDetailSites.forEach((DeliveryDetailSite detailSite) {
         _makeMarker(detailSite.latitude, detailSite.longitude);
@@ -130,6 +131,11 @@ class _DeliveryDetailSitePageState extends State<DeliveryDetailSitePage> {
     DeliveryDetailSiteModel detailSiteModel = context.read();
     CartModel cartModel = context.read();
 
+    if(detailSiteModel.selected == null) {
+      DialogUtils.dialog(context, '상세위치를 선택해주세요.');
+      return;
+    }
+
     try {
       bool isSuccess = true;
       deliverySiteModel.changeIsChanging(true);
@@ -158,7 +164,10 @@ class _DeliveryDetailSitePageState extends State<DeliveryDetailSitePage> {
       } else {
         Initializer _initializer = Injector.appInstance.getDependency<Initializer>();
         await _initializer.initializeModelData();
-        Get.offAll(BasePage(), transition: Transition.cupertino);
+        await _homeInit();
+        Get.until((Route route) {
+          return Get.currentRoute == '/' || route.isFirst;
+        });
       }
 
       // toast 메시지
@@ -170,5 +179,28 @@ class _DeliveryDetailSitePageState extends State<DeliveryDetailSitePage> {
     } finally {
       deliverySiteModel.changeIsChanging(false);
     }
+  }
+
+  Future<void> _homeInit() async {
+    DeliverySiteModel deliverySiteModel = context.read();
+    OrderTimeModel orderTimeModel = context.read();
+    AdvertisementModel advertisementModel = context.read();
+    HomeSortModel homeSortModel = context.read();
+    StoreSummaryModel storeSummaryModel = context.read();
+
+    // advertisement fetch
+    advertisementModel
+      ..clear(notify: false)
+      ..fetch(dIdx: deliverySiteModel.userDeliverySite?.idx);
+
+    // store summary fetch
+    storeSummaryModel.clear(notify: false);
+    await storeSummaryModel.fetch(
+      isForceUpdate: true,
+      dIdx: deliverySiteModel.userDeliverySite?.idx,
+      oIdx: orderTimeModel.userOrderTime?.idx,
+      oDate: orderTimeModel.userOrderDate,
+      sortType: homeSortModel.sortType
+    );
   }
 }

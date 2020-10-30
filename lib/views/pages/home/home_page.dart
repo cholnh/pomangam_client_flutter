@@ -118,6 +118,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     bool isShowCart = (context.watch<CartModel>().cart?.items?.length ?? 0) != 0;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Stack(
           children: <Widget>[

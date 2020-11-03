@@ -9,10 +9,7 @@ import 'package:pomangam_client_flutter/_bases/util/string_utils.dart';
 import 'package:pomangam_client_flutter/_bases/util/toast_utils.dart';
 import 'package:pomangam_client_flutter/domains/order/order_response.dart';
 import 'package:pomangam_client_flutter/domains/order/order_type.dart';
-import 'package:pomangam_client_flutter/domains/payment/payment.dart';
 import 'package:pomangam_client_flutter/domains/payment/payment_type.dart';
-import 'package:pomangam_client_flutter/providers/order/order_model.dart';
-import 'package:provider/provider.dart';
 
 class OrderInfoDetailInfoWidget extends StatelessWidget {
 

@@ -11,9 +11,6 @@ part 'store.g.dart';
 @JsonSerializable(nullable: true, explicitToJson: true)
 class Store extends EntityAuditing {
 
-  /// 배달지 인덱스
-  int idxDeliverySite;
-
   /// 업체 분류
   String storeCategory;
 

@@ -45,7 +45,6 @@ Store _$StoreFromJson(Map<String, dynamic> json) {
         ?.toList(),
     isLike: json['isLike'] as bool,
   )
-    ..idxDeliverySite = json['idxDeliverySite'] as int
     ..storeCategory = json['storeCategory'] as String;
 }
 
@@ -53,7 +52,6 @@ Map<String, dynamic> _$StoreToJson(Store instance) => <String, dynamic>{
       'idx': instance.idx,
       'registerDate': instance.registerDate?.toIso8601String(),
       'modifyDate': instance.modifyDate?.toIso8601String(),
-      'idxDeliverySite': instance.idxDeliverySite,
       'storeCategory': instance.storeCategory,
       'storeInfo': instance.storeInfo?.toJson(),
       'productionInfo': instance.productionInfo?.toJson(),

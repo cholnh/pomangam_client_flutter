@@ -51,7 +51,7 @@ class OrderInfoDetailItemsWidget extends StatelessWidget {
               rightText: '-${StringUtils.comma(order.discountCost)}원',
           ),
           SizedBox(height: 15),
-          Divider(thickness: 0.5, height: kIsWeb ? 1.0 : 0.5),
+          Divider(thickness: 0.5, height: kIsWeb ? 1.0 : 0.5, color: Colors.black),
           SizedBox(height: 15),
           _text(
               leftText: '합계',
@@ -150,7 +150,7 @@ class OrderInfoDetailItemsWidget extends StatelessWidget {
               );
             }).toList(),
           ),
-          Divider(height: 0.5, thickness: kIsWeb ? 1.0 : 0.5),
+          Divider(height: 0.5, thickness: kIsWeb ? 1.0 : 0.5, color: Colors.black),
           SizedBox(height: 15),
         ],
       ));

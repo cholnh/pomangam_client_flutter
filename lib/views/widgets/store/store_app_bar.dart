@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pomangam_client_flutter/providers/deliverysite/delivery_site_model.dart';
 
 import 'package:pomangam_client_flutter/providers/sign/sign_in_model.dart';
 import 'package:pomangam_client_flutter/providers/store/store_model.dart';
@@ -47,7 +48,7 @@ void _onPressed({StoreModel model}) {
   bool isSignIn = Get.context.read<SignInModel>().isSignIn();
   if(isSignIn) {
     model.likeToggle(
-        dIdx: model.store?.idxDeliverySite,
+        dIdx: Get.context.read<DeliverySiteModel>().userDeliverySite?.idx,
         sIdx: model.store?.idx
     );
   } else {

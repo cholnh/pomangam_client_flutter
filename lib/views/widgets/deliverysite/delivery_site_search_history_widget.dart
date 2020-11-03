@@ -114,7 +114,7 @@ class _DeliverySiteSearchHistoryWidgetState extends State<DeliverySiteSearchHist
         FocusScopeNode currentFocus = FocusScope.of(context);
         currentFocus.unfocus();
 
-        Get.to(DeliveryDetailSitePage(deliverySite),
+        Get.to(DeliveryDetailSitePage(deliverySite, isFirst: widget.isFirst),
           arguments: DeliveryDetailPageType.FROM_DEFAULT,
           transition: Transition.cupertino,
           duration: Duration.zero

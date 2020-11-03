@@ -34,8 +34,9 @@ class DeliveryDetailSitePage extends StatefulWidget {
 
   final DeliverySite deliverySite;
   final int oIdx;
+  final bool isFirst;
 
-  DeliveryDetailSitePage(this.deliverySite, {this.oIdx = -1});
+  DeliveryDetailSitePage(this.deliverySite, {this.oIdx = -1, this.isFirst = false});
 
   @override
   _DeliveryDetailSitePageState createState() => _DeliveryDetailSitePageState();
@@ -165,9 +166,14 @@ class _DeliveryDetailSitePageState extends State<DeliveryDetailSitePage> {
         Initializer _initializer = Injector.appInstance.getDependency<Initializer>();
         await _initializer.initializeModelData();
         await _homeInit();
-        Get.until((Route route) {
-          return Get.currentRoute == '/' || route.isFirst;
-        });
+
+        if(widget.isFirst) {
+          Get.offAll(BasePage());
+        } else {
+          Get.until((Route route) {
+            return Get.currentRoute == '/' || route.isFirst;
+          });
+        }
       }
 
       // toast 메시지

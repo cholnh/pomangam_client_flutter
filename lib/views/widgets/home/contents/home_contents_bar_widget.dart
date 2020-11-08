@@ -62,7 +62,7 @@ class HomeContentsBarWidget extends StatelessWidget {
                     Icon(Icons.arrow_drop_down, color: Theme.of(Get.context).primaryColor)
                   ],
                 ),
-                Text('$textArrivalDate', style: const TextStyle(fontSize: 11.0, color: Colors.grey)),
+                if(isNextDay) Text('$textArrivalDate', style: const TextStyle(fontSize: 11.0, color: Colors.grey)),
               ],
             ),
             onTap: () => _showModal(

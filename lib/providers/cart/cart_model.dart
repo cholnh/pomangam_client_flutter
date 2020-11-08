@@ -99,6 +99,7 @@ class CartModel with ChangeNotifier {
 
   void renewOrderableTime({bool notify = true}) {
     OrderTimeModel orderTimeModel = Get.context.read<OrderTimeModel>();
+    cart.orderDate = orderTimeModel.userOrderDate;
     cart.orderTime = orderTimeModel.userOrderTime;
     if(notify) {
       notifyListeners();

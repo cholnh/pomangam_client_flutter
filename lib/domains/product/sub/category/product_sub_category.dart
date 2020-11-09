@@ -10,6 +10,8 @@ class ProductSubCategory extends EntityAuditing {
 
   String categoryTitle;
 
+  bool isNecessary;
+
   List<ProductSub> productSubs;
 
   ProductSubType productSubType;
@@ -17,7 +19,7 @@ class ProductSubCategory extends EntityAuditing {
   @JsonKey(ignore: true)
   List<ProductSub> selectedProductSub = List();
 
-  ProductSubCategory({this.categoryTitle, this.productSubs, this.productSubType});
+  ProductSubCategory({this.categoryTitle, this.isNecessary, this.productSubs, this.productSubType});
 
   factory ProductSubCategory.fromJson(Map<String, dynamic> json) => _$ProductSubCategoryFromJson(json);
   Map<String, dynamic> toJson() => _$ProductSubCategoryToJson(this);

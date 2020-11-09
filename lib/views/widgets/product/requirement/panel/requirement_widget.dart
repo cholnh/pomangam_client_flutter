@@ -113,7 +113,7 @@ class _RequirementWidgetState extends State<RequirementWidget> {
     List<ProductSub> selectedSubs = productModel.selectedSubs();
 
     if(!_isValidCustomProduct(selectedSubs)) {
-      DialogUtils.dialog(context, '모든 칸의 음식을 채워주세요.');
+      DialogUtils.dialog(context, '필수 선택을 채워주세요.');
       return;
     }
 
@@ -145,7 +145,7 @@ class _RequirementWidgetState extends State<RequirementWidget> {
       case ProductType.CUSTOMIZING_6: n = 6; break;
       default: return true;
     }
-    return selectedSubs.length == n;
+    return selectedSubs.length >= n;
   }
 
   String _requirementAndSaveIt() {

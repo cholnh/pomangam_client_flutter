@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pomangam_client_flutter/providers/product/product_model.dart';
 import 'package:pomangam_client_flutter/views/widgets/product/normal/contents/product_count_widget.dart';
+import 'package:pomangam_client_flutter/views/widgets/product/normal/contents/product_price_widget.dart';
 import 'package:provider/provider.dart';
 
 class ProductCustomContentsWidget extends StatelessWidget {

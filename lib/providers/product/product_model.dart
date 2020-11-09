@@ -193,13 +193,15 @@ class ProductModel with ChangeNotifier {
     if(product.productType == ProductType.NORMAL) return true;
     for(ProductSubCategory cate in product.productSubCategories) {
       bool isSelected = false;
-      for(ProductSub sub in cate.productSubs) {
-        if(sub.isSelected) {
-          isSelected = true;
-          break;
+      if(cate.isNecessary) {
+        for(ProductSub sub in cate.productSubs) {
+          if(sub.isSelected) {
+            isSelected = true;
+            break;
+          }
         }
+        if(!isSelected) return false;
       }
-      if(!isSelected) return false;
     }
     return true;
   }

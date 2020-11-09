@@ -9,6 +9,7 @@ part of 'product_sub_category.dart';
 ProductSubCategory _$ProductSubCategoryFromJson(Map<String, dynamic> json) {
   return ProductSubCategory(
     categoryTitle: json['categoryTitle'] as String,
+    isNecessary: json['isNecessary'] as bool,
     productSubs: (json['productSubs'] as List)
         ?.map((e) =>
             e == null ? null : ProductSub.fromJson(e as Map<String, dynamic>))
@@ -31,6 +32,7 @@ Map<String, dynamic> _$ProductSubCategoryToJson(ProductSubCategory instance) =>
       'registerDate': instance.registerDate?.toIso8601String(),
       'modifyDate': instance.modifyDate?.toIso8601String(),
       'categoryTitle': instance.categoryTitle,
+      'isNecessary': instance.isNecessary,
       'productSubs': instance.productSubs?.map((e) => e?.toJson())?.toList(),
       'productSubType': _$ProductSubTypeEnumMap[instance.productSubType],
     };

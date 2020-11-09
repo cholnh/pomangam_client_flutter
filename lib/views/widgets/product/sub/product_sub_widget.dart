@@ -30,13 +30,15 @@ class ProductSubWidget extends StatelessWidget {
           delegate: SliverChildBuilderDelegate((context, index) {
             if(model.idxProductSubCategory == 0) {
               return ProductSubItemWidget(
-                  productSubCategory: subCategories[index]
+                isFirst: index == 0,
+                productSubCategory: subCategories[index]
               );
             } else {
               ProductSubCategory subCategory = subCategories[index];
               if(model.idxProductSubCategory == subCategory.idx) {
                 return ProductSubItemWidget(
-                    productSubCategory: subCategory
+                  isFirst: index == 0,
+                  productSubCategory: subCategory
                 );
               } else {
                 return Container();

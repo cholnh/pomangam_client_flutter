@@ -1,16 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:injector/injector.dart';
+import 'package:pomangam_client_flutter/_bases/key/shared_preference_key.dart' as s;
 import 'package:pomangam_client_flutter/domains/product/product.dart';
-import 'package:pomangam_client_flutter/domains/product/product_summary.dart';
+import 'package:pomangam_client_flutter/domains/product/product_type.dart';
 import 'package:pomangam_client_flutter/domains/product/sub/category/product_sub_category.dart';
 import 'package:pomangam_client_flutter/domains/product/sub/product_sub.dart';
 import 'package:pomangam_client_flutter/domains/store/store_quantity_orderable.dart';
+import 'package:pomangam_client_flutter/providers/product/sub/product_sub_category_model.dart';
 import 'package:pomangam_client_flutter/providers/store/store_summary_model.dart';
 import 'package:pomangam_client_flutter/repositories/product/product_repository.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:pomangam_client_flutter/_bases/key/shared_preference_key.dart' as s;
 
 class ProductModel with ChangeNotifier {
 
@@ -42,6 +43,11 @@ class ProductModel with ChangeNotifier {
     try {
       this.product = await _productRepository.findByIdx(dIdx: dIdx, sIdx: sIdx, pIdx: pIdx);
       this.isProductFetched = true;
+
+      // 카테고리 처리
+      idxProductSubCategory = product.productSubCategories.first.idx;
+      Get.context.read<ProductSubCategoryModel>().changeIdxSelectedCategory(idxProductSubCategory);
+
     } catch (error) {
       print('[Debug] ProductModel.fetch Error - $error');
       isProductFetching = false;
@@ -180,5 +186,37 @@ class ProductModel with ChangeNotifier {
     if(notify) {
       notifyListeners();
     }
+  }
+
+  bool isCustomAllSelected() {
+    if(product == null) return false;
+    if(product.productType == ProductType.NORMAL) return true;
+    for(ProductSubCategory cate in product.productSubCategories) {
+      bool isSelected = false;
+      for(ProductSub sub in cate.productSubs) {
+        if(sub.isSelected) {
+          isSelected = true;
+          break;
+        }
+      }
+      if(!isSelected) return false;
+    }
+    return true;
+  }
+
+  int nextHelpIdx() {
+    for(ProductSubCategory category in product.productSubCategories) {
+      bool isSelected = false;
+      for(ProductSub sub in category.productSubs) {
+        if(sub.isSelected) {
+          isSelected = true;
+          break;
+        }
+      }
+      if(!isSelected) {
+        return category.idx;
+      }
+    }
+    return -1;
   }
 }

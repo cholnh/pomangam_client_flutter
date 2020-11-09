@@ -12,9 +12,10 @@ import 'package:provider/provider.dart';
 
 class ProductSubItemWidget extends StatelessWidget {
 
+  final bool isFirst;
   final ProductSubCategory productSubCategory;
 
-  ProductSubItemWidget({this.productSubCategory});
+  ProductSubItemWidget({this.isFirst = false, this.productSubCategory});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,15 @@ class ProductSubItemWidget extends StatelessWidget {
       children: <Widget>[
         Container(
           alignment: Alignment.centerLeft,
-          color: Color.fromRGBO(0, 0, 0, 0.05),
+          decoration: BoxDecoration(
+            color: Colors.grey[100],
+            border: isFirst ? Border(
+              top: BorderSide(
+                color: Colors.grey[300],
+                width: 1
+              )
+            ): null
+          ),
           padding: EdgeInsets.only(top: 15.0, bottom: 15.0, left: 15.0),
           child: Text('${productSubCategory.categoryTitle}', style: TextStyle(fontSize: 13.0, fontWeight: FontWeight.bold, color: Theme.of(context).textTheme.headline1.color))
         ),

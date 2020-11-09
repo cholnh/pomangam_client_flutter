@@ -10,7 +10,7 @@ import 'package:pomangam_client_flutter/providers/product/sub/product_sub_catego
 
 class ProductCustom3ImageWidget extends StatelessWidget {
 
-  final Function(int, int) onSelected;
+  final Function(int) onSelected;
 
   ProductCustom3ImageWidget({this.onSelected});
 
@@ -50,36 +50,36 @@ class ProductCustom3ImageWidget extends StatelessWidget {
                         Expanded(
                           child: ProductCustomImagePartWidget(
                             height: 80,
-                            isSelected: selected == 2,
+                            isSelected: selected == subCategories[1].idx,
                             category: subCategories[1],
                             borderRadius: BorderRadius.only(
                               topLeft: const Radius.circular(10.0),
                             ),
-                            onTap: () => _changeCategory(2, subCategories[1].idx),
+                            onTap: () => _changeCategory(subCategories[1].idx),
                           )
                         ),
                         Expanded(
                           child: ProductCustomImagePartWidget(
                             height: 80,
-                            isSelected: selected == 3,
+                            isSelected: selected == subCategories[2].idx,
                             category: subCategories[2],
                             borderRadius: BorderRadius.only(
                               topRight: const Radius.circular(10.0),
                             ),
-                            onTap: () => _changeCategory(3, subCategories[2].idx),
+                            onTap: () => _changeCategory(subCategories[2].idx),
                           )
                         )
                       ],
                     ),
                     ProductCustomImagePartWidget(
                       height: 80,
-                      isSelected: selected == 1,
+                      isSelected: selected == subCategories[0].idx,
                       category: subCategories[0],
                       borderRadius: BorderRadius.only(
                         bottomRight: const Radius.circular(10.0),
                         bottomLeft: const Radius.circular(10.0),
                       ),
-                      onTap: () => _changeCategory(1, subCategories[0].idx),
+                      onTap: () => _changeCategory(subCategories[0].idx),
                     )
                   ],
                 ),
@@ -91,7 +91,7 @@ class ProductCustom3ImageWidget extends StatelessWidget {
     );
   }
 
-  void _changeCategory(int idxSelected, int idxProductSubCategory) {
-    this.onSelected(idxSelected, idxProductSubCategory);
+  void _changeCategory(int idxProductSubCategory) {
+    this.onSelected(idxProductSubCategory);
   }
 }

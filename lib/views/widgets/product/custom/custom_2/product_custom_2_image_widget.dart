@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 
 class ProductCustom2ImageWidget extends StatelessWidget {
 
-  final Function(int, int) onSelected;
+  final Function(int) onSelected;
 
   ProductCustom2ImageWidget({this.onSelected});
 
@@ -46,24 +46,24 @@ class ProductCustom2ImageWidget extends StatelessWidget {
                   children: <Widget>[
                     Expanded(
                       child: ProductCustomImagePartWidget(
-                        isSelected: selected == 1,
+                        isSelected: selected == subCategories[0].idx,
                         category: subCategories[0],
                         borderRadius: BorderRadius.only(
                           topLeft: const Radius.circular(10.0),
                           bottomLeft: const Radius.circular(10.0)
                         ),
-                        onTap: () => _changeCategory(1, subCategories[0].idx),
+                        onTap: () => _changeCategory(subCategories[0].idx),
                       )
                     ),
                     Expanded(
                       child: ProductCustomImagePartWidget(
-                        isSelected: selected == 2,
+                        isSelected: selected == subCategories[1].idx,
                         category: subCategories[1],
                         borderRadius: BorderRadius.only(
                             topRight: const Radius.circular(10.0),
                             bottomRight: const Radius.circular(10.0)
                         ),
-                        onTap: () => _changeCategory(2, subCategories[1].idx),
+                        onTap: () => _changeCategory(subCategories[1].idx),
                       )
                     )
                   ],
@@ -76,7 +76,7 @@ class ProductCustom2ImageWidget extends StatelessWidget {
     );
   }
 
-  void _changeCategory(int idxSelected, int idxProductSubCategory) {
-    this.onSelected(idxSelected, idxProductSubCategory);
+  void _changeCategory(int idxProductSubCategory) {
+    this.onSelected(idxProductSubCategory);
   }
 }

@@ -111,6 +111,8 @@ dependencies:
 
   multi_image_picker: ^4.7.14
 
+  simple_animations: ^2.2.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

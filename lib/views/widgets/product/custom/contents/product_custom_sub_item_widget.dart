@@ -20,7 +20,7 @@ class ProductCustomSubItemWidget extends StatelessWidget {
       children: <Widget>[
         Container(
           alignment: Alignment.centerLeft,
-          color: Color.fromRGBO(0, 0, 0, 0.05),
+          color: Colors.grey[100],
           padding: EdgeInsets.only(top: 15.0, bottom: 15.0, left: 15.0),
           child: Text('${productSubCategory.categoryTitle}', style: TextStyle(fontSize: 13.0, fontWeight: FontWeight.bold, color: Theme.of(context).textTheme.headline1.color))
         ),
@@ -51,7 +51,8 @@ class ProductCustomSubItemWidget extends StatelessWidget {
             : null,
           trailing: Text('+ ${StringUtils.comma(sub?.salePrice)}원', style: TextStyle(fontSize: 13.0, color: Colors.black)),
           onTap: () {
-            context.read<ProductModel>().toggleProductSubIsSelected(
+            ProductModel productModel = context.read();
+            productModel.toggleProductSubIsSelected(
                 productSubCategory: productSubCategory,
                 subIdx: sub.idx,
                 isRadio: true

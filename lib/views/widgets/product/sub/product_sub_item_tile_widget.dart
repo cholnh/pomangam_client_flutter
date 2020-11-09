@@ -26,6 +26,7 @@ class ProductSubItemTileWidget extends StatelessWidget {
               Container(
                 height: 65,
                 decoration: BoxDecoration(
+                  color: Colors.white,
                   border: selected ? Border.all(
                     color: Theme.of(context).primaryColor,
                     width: 1.0
@@ -75,7 +76,7 @@ class ProductSubItemTileWidget extends StatelessWidget {
                   ],
                 ),
               ),
-              Divider(height: 1.0, thickness: 0.5)
+              Divider(height: 1.0, thickness: 0.5, color: Colors.grey[300])
             ],
           ),
         ),

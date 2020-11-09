@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:pomangam_client_flutter/domains/product/sub/category/product_sub_category.dart';
 import 'package:pomangam_client_flutter/providers/product/product_model.dart';
@@ -13,19 +12,7 @@ class ProductSubCategoryWidget extends StatelessWidget {
   final Function(int, int) onSelected;
   final ScrollController scrollController = ScrollController();
 
-  ProductSubCategoryWidget({this.pinned, this.onSelected}) {
-    // if(pinned) {
-    //   SchedulerBinding.instance.addPostFrameCallback((_) async {
-    //     int selected = Get.context.read<ProductSubCategoryModel>().idxSelectedCategory;
-    //     int to = (selected < 4 ? 0 : selected) * 20;
-    //     scrollController.animateTo(
-    //         to.toDouble(),
-    //         duration: Duration(milliseconds: 200),
-    //         curve: Curves.easeInQuart
-    //     );
-    //   });
-    // }
-  }
+  ProductSubCategoryWidget({this.pinned, this.onSelected});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +23,7 @@ class ProductSubCategoryWidget extends StatelessWidget {
       centerTitle: false,
       automaticallyImplyLeading: false,
       titleSpacing: 0,
-      elevation: 0.3,
+      elevation: 1.0,
       title: Container(
         height: 60,
         child: Consumer<ProductSubCategoryModel>(
@@ -64,14 +51,14 @@ class ProductSubCategoryWidget extends StatelessWidget {
                           semanticContainer: true,
                           color: index == selected ? Theme.of(context).primaryColor : Theme.of(context).backgroundColor,
                           child: Container(
-                              margin: EdgeInsets.only(left: 15.0, right: 15.0),
-                              padding: EdgeInsets.all(5.0),
-                              alignment: Alignment.center,
-                              child: Text(index == 0
-                                  ? '전체'
-                                  : '${subCategories[index-1].categoryTitle}',
-                                style: TextStyle(color: index == selected ? Colors.white : Colors.black, fontSize: 13.0),
-                              )
+                            margin: EdgeInsets.only(left: 15.0, right: 15.0),
+                            padding: EdgeInsets.all(5.0),
+                            alignment: Alignment.center,
+                            child: Text(index == 0
+                                ? '전체'
+                                : '${subCategories[index-1].categoryTitle}',
+                              style: TextStyle(color: index == selected ? Colors.white : Colors.black, fontSize: 13.0),
+                            )
                           ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),

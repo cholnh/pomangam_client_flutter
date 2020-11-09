@@ -38,7 +38,6 @@ class _ProductPageState extends State<ProductPage> {
 
   @override
   Widget build(BuildContext context) {
-    ProductModel productModel = context.watch();
 
     return WillPopScope(
       onWillPop: _onWillPop,
@@ -47,23 +46,31 @@ class _ProductPageState extends State<ProductPage> {
           child: Stack(
             children: <Widget>[
               Scaffold(
+                backgroundColor: Colors.grey[100],
                 appBar: ProductAppBar(),
                 body: ProductBodyWidget(type: widget.type),
               ),
-              SlidingUpPanel(
-                controller: _panelController,
-                minHeight: 80.0,
-                maxHeight:
-                  productModel.userRecentRequirement == null ||
-                  productModel.userRecentRequirement.trim().isEmpty
-                    ? 220
-                    : 250,
-                backdropEnabled: true,
-                renderPanelSheet: false,
-                onPanelOpened: _onSlideOpen,
-                onPanelClosed: _onSlideClose,
-                panel: RequirementWidget(),
-                collapsed: RequirementCollapsedWidget(onSelected: _onSlideSelected)
+              Consumer<ProductModel>(
+                builder: (_, model, __) {
+                  if(model.isCustomAllSelected())
+                    return  SlidingUpPanel(
+                      controller: _panelController,
+                      minHeight: 80.0,
+                      maxHeight:
+                        model.userRecentRequirement == null ||
+                        model.userRecentRequirement.trim().isEmpty
+                          ? 220
+                          : 250,
+                      backdropEnabled: true,
+                      renderPanelSheet: false,
+                      onPanelOpened: _onSlideOpen,
+                      onPanelClosed: _onSlideClose,
+                      panel: RequirementWidget(),
+                      collapsed: RequirementCollapsedWidget(onSelected: _onSlideSelected)
+                    );
+                  else
+                    return Container();
+                }
               ),
             ],
           ),

@@ -47,7 +47,7 @@ class ProductSubItemTileWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           SizedBox(
-                            width: MediaQuery.of(context).size.width - 90 - 90,
+                            //width: MediaQuery.of(context).size.width - 90 - 90,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,

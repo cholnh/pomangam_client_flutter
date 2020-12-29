@@ -3,20 +3,44 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:path/path.dart';
 import 'package:pomangam_client_flutter/_bases/constants/endpoint.dart';
 import 'package:pomangam_client_flutter/domains/store/store_summary.dart';
+import 'package:pomangam_client_flutter/providers/order/time/order_time_model.dart';
 import 'package:pomangam_client_flutter/views/pages/store/store_page.dart';
 import 'package:pomangam_client_flutter/views/widgets/_bases/custom_shimmer.dart';
+import 'package:provider/provider.dart';
 
-class HomeContentsGridItemWidget extends StatelessWidget {
+class HomeContentsGridItemWidget extends StatefulWidget {
 
   final StoreSummary summary;
 
   HomeContentsGridItemWidget({Key key, this.summary}): super(key: key);
 
   @override
+  _HomeContentsGridItemWidgetState createState() => _HomeContentsGridItemWidgetState();
+}
+
+class _HomeContentsGridItemWidgetState extends State<HomeContentsGridItemWidget> {
+
+  bool _isOrderable;
+  bool _isOpening;
+
+  @override
+  void initState() {
+    super.initState();
+    DateTime userOrderDate = Provider.of<OrderTimeModel>(Get.context, listen: false)
+        .userOrderDate;
+    bool isNextDay = userOrderDate?.isAfter(DateTime.now());
+    _isOrderable = isNextDay || widget.summary.isOrderable();
+    _isOpening = widget.summary.storeSchedule.isOpening; // isNextDay || widget.summary.storeSchedule.isOpening;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (summary == null) return Padding(
+    double opacity = _isOrderable && _isOpening ? 1 : 0.5;
+
+    if (widget.summary == null) return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 0),
       child: CustomShimmer(
           height: 114,
@@ -24,13 +48,18 @@ class HomeContentsGridItemWidget extends StatelessWidget {
       ),
     );
     return GestureDetector(
-      onTap: _navigateToStorePage,
-      child: Container(
-        key: key,
-        decoration: BoxDecoration(
-            border: Border.all(width: 0.3, color: Theme.of(Get.context).backgroundColor)
+      onTap: () => _isOrderable && _isOpening
+          ? _navigateToStorePage()
+          : {},
+      child: Opacity(
+        opacity: opacity,
+        child: Container(
+          key: widget.key,
+          decoration: BoxDecoration(
+              border: Border.all(width: 0.3, color: Theme.of(Get.context).backgroundColor)
+          ),
+          child: kIsWeb ? _web() : _mobile(),
         ),
-        child: kIsWeb ? _web() : _mobile(),
       )
     );
   }
@@ -50,7 +79,7 @@ class HomeContentsGridItemWidget extends StatelessWidget {
             },
             blendMode: BlendMode.darken,
             child: CachedNetworkImage(
-              imageUrl: '${Endpoint.serverDomain}/${summary?.storeImageMainPath}?v=${summary.modifyDate}',
+              imageUrl: '${Endpoint.serverDomain}/${widget.summary?.storeImageMainPath}?v=${widget.summary.modifyDate}',
               fit: BoxFit.fill,
               placeholder: (context, url) => CupertinoActivityIndicator(),
               errorWidget: (context, url, error) => Icon(Icons.error_outline),
@@ -62,7 +91,7 @@ class HomeContentsGridItemWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(summary.name, style: TextStyle(
+              Text(widget.summary.name, style: TextStyle(
                   fontSize: 12.0,
                   fontWeight: FontWeight.w500,
                   color: Colors.white
@@ -74,13 +103,13 @@ class HomeContentsGridItemWidget extends StatelessWidget {
                 children: [
                   Icon(Icons.star, color: Theme.of(Get.context).primaryColor, size: 14),
                   SizedBox(width: 3),
-                  Text('${summary.avgStar.toStringAsFixed(1)}', style: TextStyle(
+                  Text('${widget.summary.avgStar.toStringAsFixed(1)}', style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
                       color: Colors.white
                   )),
                   SizedBox(width: 5),
-                  Text('(${summary.cntReview})', style: TextStyle(
+                  Text('(${widget.summary.cntReview})', style: TextStyle(
                       fontSize: 12,
                       color: Colors.white
                   ))
@@ -99,7 +128,7 @@ class HomeContentsGridItemWidget extends StatelessWidget {
       fit: StackFit.expand,
       children: <Widget>[
         CachedNetworkImage(
-          imageUrl: '${Endpoint.serverDomain}/${summary?.storeImageMainPath}?v=${summary.modifyDate}',
+          imageUrl: '${Endpoint.serverDomain}/${widget.summary?.storeImageMainPath}?v=${widget.summary.modifyDate}',
           fit: BoxFit.fill,
           placeholder: (context, url) => CupertinoActivityIndicator(),
           errorWidget: (context, url, error) => Icon(Icons.error_outline),
@@ -125,7 +154,7 @@ class HomeContentsGridItemWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(summary.name, style: TextStyle(
+              Text(widget.summary.name, style: TextStyle(
                   fontSize: 12.0,
                   fontWeight: FontWeight.w500,
                   color: Colors.white
@@ -137,13 +166,13 @@ class HomeContentsGridItemWidget extends StatelessWidget {
                 children: [
                   Icon(Icons.star, color: Theme.of(Get.context).primaryColor, size: 14),
                   SizedBox(width: 3),
-                  Text('${summary.avgStar.toStringAsFixed(1)}', style: TextStyle(
+                  Text('${widget.summary.avgStar.toStringAsFixed(1)}', style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
                       color: Colors.white
                   )),
                   SizedBox(width: 5),
-                  Text('(${summary.cntReview})', style: TextStyle(
+                  Text('(${widget.summary.cntReview})', style: TextStyle(
                       fontSize: 12,
                       color: Colors.white
                   ))
@@ -157,6 +186,6 @@ class HomeContentsGridItemWidget extends StatelessWidget {
   }
 
   void _navigateToStorePage() {
-    Get.to(StorePage(sIdx: summary.idx), transition: Transition.cupertino, duration: Duration.zero);
+    Get.to(StorePage(sIdx: widget.summary.idx), transition: Transition.cupertino, duration: Duration.zero);
   }
 }

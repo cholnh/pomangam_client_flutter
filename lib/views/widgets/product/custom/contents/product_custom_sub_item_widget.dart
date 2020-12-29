@@ -46,8 +46,8 @@ class ProductCustomSubItemWidget extends StatelessWidget {
             ),
           ),
           title: '${sub.productSubInfo?.name ?? ''}',
-          subtitle: sub?.productSubInfo?.description != null
-            ? '${sub.productSubInfo.description ?? ''} ${sub.productSubInfo?.subDescription ?? ''}'
+          subtitle: sub?.productSubInfo?.description != null || sub?.productSubInfo?.subDescription != null
+            ? '${sub.productSubInfo?.description ?? ''}' + (sub?.productSubInfo?.description != null ? ' ' : '') + '${sub.productSubInfo?.subDescription ?? ''}'
             : null,
           trailing: Text('+ ${StringUtils.comma(sub?.salePrice)}원', style: TextStyle(fontSize: 13.0, color: Colors.black)),
           onTap: () {
@@ -64,4 +64,5 @@ class ProductCustomSubItemWidget extends StatelessWidget {
       );
     }).toList();
   }
+
 }

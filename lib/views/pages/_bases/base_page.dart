@@ -9,6 +9,7 @@ import 'package:pomangam_client_flutter/providers/home/home_view_model.dart';
 import 'package:pomangam_client_flutter/providers/order/order_info_model.dart';
 import 'package:pomangam_client_flutter/views/pages/home/home_page.dart';
 import 'package:pomangam_client_flutter/views/pages/order/order_info/order_info_page.dart';
+import 'package:pomangam_client_flutter/views/pages/periodic/periodic_landing_page.dart';
 import 'package:pomangam_client_flutter/views/pages/user_info/user_info_page.dart';
 import 'package:pomangam_client_flutter/views/widgets/_bases/help_widget.dart';
 import 'package:provider/provider.dart';
@@ -69,7 +70,7 @@ class _BasePageState extends State<BasePage> {
         ),
         navBarStyle: NavBarStyle.style2,
         padding: NavBarPadding.symmetric(horizontal: 5),
-        navBarHeight: 45,
+        navBarHeight: 55,
         onItemSelected: (index) async {
           switch(index) {
             case 0:
@@ -112,6 +113,7 @@ class _BasePageState extends State<BasePage> {
         controller: _panelController,
         onHelpTap: _onHelpTap
       ),
+      // PeriodicLandingPage(),
       OrderInfoPage(),
       UserInfoPage(),
     ];
@@ -121,13 +123,19 @@ class _BasePageState extends State<BasePage> {
 
     final Color activeColor = Theme.of(Get.context).primaryColor;
     final Color inactiveColor = Theme.of(Get.context).iconTheme.color;
-
+    final double iconSize = 23;
     return [
       PersistentBottomNavBarItem(
-        icon: Icon(CupertinoIcons.home),
+        icon: Icon(CupertinoIcons.home, size: iconSize),
         activeColor: activeColor,
         inactiveColor: inactiveColor,
       ),
+      // PersistentBottomNavBarItem(
+      //   icon: Icon(CupertinoIcons.time, size: iconSize),
+      //   activeColor: activeColor,
+      //   inactiveColor: inactiveColor,
+      //   title: '정기배달'
+      // ),
       PersistentBottomNavBarItem(
         icon: Badge(
           key: context.watch<HelpModel>().keyButton5,
@@ -136,13 +144,13 @@ class _BasePageState extends State<BasePage> {
           padding: const EdgeInsets.all(2),
           elevation: 0.0,
           position: BadgePosition.topEnd(top: 0, end: -5),
-          child: Icon(CupertinoIcons.news)
+          child: Icon(CupertinoIcons.news, size: iconSize)
         ),
         activeColor: activeColor,
         inactiveColor: inactiveColor,
       ),
       PersistentBottomNavBarItem(
-        icon: Icon(CupertinoIcons.ellipsis),
+        icon: Icon(CupertinoIcons.ellipsis, size: iconSize),
         activeColor: activeColor,
         inactiveColor: inactiveColor,
       ),

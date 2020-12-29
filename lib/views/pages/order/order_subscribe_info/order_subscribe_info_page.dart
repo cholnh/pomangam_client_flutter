@@ -17,7 +17,7 @@ class _OrderSubscribeInfoPageState extends State<OrderSubscribeInfoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BasicAppBar(title: '정기 배송'),
+      appBar: BasicAppBar(title: '정기 배달'),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),

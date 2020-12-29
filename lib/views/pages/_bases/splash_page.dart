@@ -71,6 +71,15 @@ class _SplashPageState extends State<SplashPage> {
                 )),
             margin: const EdgeInsets.only(bottom: 15),
             alignment: Alignment.bottomCenter,
+          ) else Container(
+            child: Text(
+                'web',
+                style: TextStyle(
+                    fontSize: 13.0,
+                    color: Theme.of(context).backgroundColor
+                )),
+            margin: const EdgeInsets.only(bottom: 15),
+            alignment: Alignment.bottomCenter,
           ),
         ],
       ),

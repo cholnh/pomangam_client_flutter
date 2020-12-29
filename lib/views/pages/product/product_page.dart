@@ -99,7 +99,7 @@ class _ProductPageState extends State<ProductPage> {
   }
 
   Future<bool> _onWillPop() async {
-    if(_panelController.isPanelOpen) {
+    if(_panelController?.isPanelOpen ?? false) {
       _panelController.close();
       return Future.value(false);
     }

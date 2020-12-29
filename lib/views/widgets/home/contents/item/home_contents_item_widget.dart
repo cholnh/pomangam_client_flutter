@@ -39,7 +39,7 @@ class _HomeContentsItemWidgetState extends State<HomeContentsItemWidget> {
         .userOrderDate;
     bool isNextDay = userOrderDate?.isAfter(DateTime.now());
     _isOrderable = isNextDay || widget.summary.isOrderable();
-    _isOpening = isNextDay || widget.summary.storeSchedule.isOpening;
+    _isOpening = widget.summary.storeSchedule.isOpening; // isNextDay || widget.summary.storeSchedule.isOpening;
   }
 
   @override

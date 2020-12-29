@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pomangam_client_flutter/views/widgets/_bases/tab_selector.dart';
 import 'package:pomangam_client_flutter/views/widgets/home/drawer/home_drawer_body_widget.dart';
 
 class MorePage extends StatefulWidget {

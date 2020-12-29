@@ -15,7 +15,7 @@ class PaymentMethodCommonTypeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onSelected,
+      onTap: isActive ? onSelected : (){},
       child: Material(
         color: Colors.transparent,
         child: Column(

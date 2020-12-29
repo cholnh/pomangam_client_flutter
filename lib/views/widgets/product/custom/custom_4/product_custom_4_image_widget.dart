@@ -19,7 +19,7 @@ class ProductCustom4ImageWidget extends StatelessWidget {
     return Consumer<ProductSubCategoryModel>(
       builder: (_, categoryModel, child) {
         int selected = categoryModel.idxSelectedCategory;
-        print('selected $selected');
+
         return Consumer<ProductModel>(
           builder: (_, productModel, child) {
             List<ProductSubCategory> subCategories = productModel.product?.productSubCategories;

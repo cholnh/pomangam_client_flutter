@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 import 'package:pomangam_client_flutter/_bases/constants/endpoint.dart';
 import 'package:pomangam_client_flutter/domains/product/product_summary.dart';
+import 'package:pomangam_client_flutter/domains/product/product_type.dart';
 import 'package:pomangam_client_flutter/providers/product/product_model.dart';
 import 'package:pomangam_client_flutter/views/pages/product/product_page.dart';
 import 'package:pomangam_client_flutter/views/widgets/_bases/custom_dialog_utils.dart';
@@ -71,7 +72,7 @@ class StoreProductItemWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text('${summary.name}', style: TextStyle(color: Colors.white, fontSize: 12.0, fontWeight: FontWeight.w500)),
-              Text('${summary.salePrice}', style: TextStyle(color: Colors.white, fontSize: 12.0, fontWeight: FontWeight.w500)),
+              if(summary.salePrice != 0) Text('${summary.salePrice}', style: TextStyle(color: Colors.white, fontSize: 12.0, fontWeight: FontWeight.w500)),
             ],
           ),
         ),
@@ -112,7 +113,7 @@ class StoreProductItemWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text('${summary.name}', style: TextStyle(color: Colors.white, fontSize: 12.0, fontWeight: FontWeight.w500)),
-              Text('${summary.salePrice}', style: TextStyle(color: Colors.white, fontSize: 12.0, fontWeight: FontWeight.w500)),
+              if(summary.salePrice != 0) Text('${summary.salePrice}', style: TextStyle(color: Colors.white, fontSize: 12.0, fontWeight: FontWeight.w500)),
             ],
           ),
         )

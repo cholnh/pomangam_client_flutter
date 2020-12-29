@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pomangam_client_flutter/_bases/constants/endpoint.dart';
 import 'package:pomangam_client_flutter/providers/sign/sign_up_model.dart';
 import 'package:pomangam_client_flutter/views/pages/sign/in/sign_in_page.dart';
 import 'package:provider/provider.dart';

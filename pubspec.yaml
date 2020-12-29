@@ -2,7 +2,7 @@ name: pomangam_client_flutter
 description: A new Flutter application.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 1.0.0+22
+version: 1.0.0+26
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -25,7 +25,7 @@ dependencies:
 
   shared_preferences: ^0.5.3+5
 
-  injector: ^1.0.8
+  injector: 1.0.8
 
   carousel_slider: ^2.3.1
 
@@ -69,7 +69,7 @@ dependencies:
 
   flutter_google_maps: 3.7.1 # web 용
 
-  bootpay_api: ^1.2.0
+  bootpay_api: ^2.0.3
 
   js: ^0.6.2
 

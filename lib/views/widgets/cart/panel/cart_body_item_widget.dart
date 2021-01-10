@@ -8,9 +8,11 @@ import 'package:pomangam_client_flutter/_bases/util/string_utils.dart';
 import 'package:pomangam_client_flutter/_bases/util/toast_utils.dart';
 import 'package:pomangam_client_flutter/domains/cart/cart.dart';
 import 'package:pomangam_client_flutter/domains/cart/item/cart_item.dart';
+import 'package:pomangam_client_flutter/domains/promotion/promotion.dart';
 import 'package:pomangam_client_flutter/providers/cart/cart_model.dart';
 import 'package:pomangam_client_flutter/providers/deliverysite/delivery_site_model.dart';
 import 'package:pomangam_client_flutter/providers/order/time/order_time_model.dart';
+import 'package:pomangam_client_flutter/providers/promotion/promotion_model.dart';
 import 'package:pomangam_client_flutter/views/pages/store/store_page.dart';
 import 'package:provider/provider.dart';
 
@@ -107,7 +109,7 @@ class CartBodyItemWidget extends StatelessWidget {
                 children: <Widget>[
                   Opacity(
                     opacity: isOrderable ? 1.0 : 0.3,
-                    child: Text('${StringUtils.comma(cartItem.totalPrice())}원', style: TextStyle(fontSize: 13.0, color: Theme.of(context).textTheme.headline1.color))
+                    child: Text('${StringUtils.comma(cartItem.totalPrice() - promotionDiscountCost(cartItem.quantity))}원', style: TextStyle(fontSize: 13.0, color: Theme.of(context).textTheme.headline1.color))
                   ),
                   Padding(padding: EdgeInsets.only(right: 5.0)),
                   GestureDetector(
@@ -161,5 +163,15 @@ class CartBodyItemWidget extends StatelessWidget {
 
   void _navigateToStore(BuildContext context, int sIdx) {
     Get.to(StorePage(sIdx: sIdx), transition: Transition.cupertino, duration: Duration.zero);
+  }
+
+  int promotionDiscountCost(int q) {
+    int total = 0;
+
+    List<Promotion> promotions = Get.context.read<PromotionModel>().promotions;
+    for(Promotion promotion in promotions) {
+      total += promotion.discountCost;
+    }
+    return total * q;
   }
 }

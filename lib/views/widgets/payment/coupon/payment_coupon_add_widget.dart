@@ -87,7 +87,14 @@ class PaymentCouponAddWidget extends StatelessWidget {
     }
 
     if(!isValidCode) {
-      _dialog(context, '이미 등록되었거나 존재하지 않는 쿠폰입니다.');
+      DialogUtils.dialog(
+          context,
+          '이미 등록되었거나 존재하지 않는 쿠폰입니다.',
+          height: 180,
+          onPressed: (dialogContext) {
+            Navigator.pop(dialogContext);
+          }
+      );
       return;
     } else {
       _textEditingController.clear();

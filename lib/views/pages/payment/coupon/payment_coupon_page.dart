@@ -22,13 +22,12 @@ class _PaymentCouponPageState extends State<PaymentCouponPage> {
     _init();
   }
 
-  Future<void> _init() async {
-
-    isSignIn = await Provider.of<SignInModel>(context, listen: false).isSignIn();
+  void _init() {
+    isSignIn = context.read<SignInModel>().isSignIn();
+    CouponModel couponModel = context.read();
+    couponModel.clear();
     if(isSignIn) {
-      Provider.of<CouponModel>(context, listen: false)
-      ..clear()
-      ..fetchAll();
+      couponModel.fetchAll();
     }
   }
 

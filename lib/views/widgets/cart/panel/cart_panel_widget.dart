@@ -129,6 +129,7 @@ class CartPanelWidget extends StatelessWidget {
     }
 
     OrderRequest request = await OrderRequest.fromCartAndPayment(cart, payment);
+    print('req: $request');
     OrderResponse response = await orderModel.save(orderRequest: request);
 
     if(response != null) {

@@ -10,9 +10,9 @@ Future<bool> couponDataInitialize({
 => logProcess(
     name: 'couponDataInitialize',
     function: () async {
+      CouponModel couponModel = Get.context.read();
+      couponModel.clear();
       if(Get.context.read<SignInModel>().isSignIn()) {
-        CouponModel couponModel = Get.context.read<CouponModel>()
-        ..clear();
         await couponModel.fetchAll();
       }
       return true;

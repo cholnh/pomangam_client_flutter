@@ -30,6 +30,7 @@ class CouponModel with ChangeNotifier {
     isCouponsFetching = true;
     try {
       this.coupons = await _couponRepository.findAll();
+      print(this.coupons);
     } catch (error) {
       print('[Debug] CouponModel.fetch Error - $error');
     }

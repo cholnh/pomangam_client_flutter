@@ -35,7 +35,7 @@ class Cart {
     usingPoint = 0;
     usingCouponCode = null;
     usingCoupons.clear();
-    usingPromotions.clear();
+    // usingPromotions.clear();
     items.clear();
   }
 
@@ -101,12 +101,16 @@ class Cart {
 
   /// 최종 결제 가격
   int totalPrice() {
+    int q = 0;
+    items.forEach((item) {
+      q += item.quantity;
+    });
     int totalDiscount = 0;
     totalDiscount += usingPoint;
     getAllUsingCoupons().forEach((usingCoupon)
     => totalDiscount += usingCoupon.isValid() ? usingCoupon.discountCost : 0);
     usingPromotions.forEach((usingPromotion)
-    => totalDiscount += usingPromotion.isValid() ? usingPromotion.discountCost : 0);
+    => totalDiscount += usingPromotion.isValid() ? usingPromotion.discountCost * q : 0);
     int totalPrice = itemsPrice() - totalDiscount;
     return totalPrice < 0 ? 0 : totalPrice;
   }

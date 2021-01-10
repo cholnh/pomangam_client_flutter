@@ -4,7 +4,6 @@ import 'package:pomangam_client_flutter/_bases/network/api/api.dart';
 import 'package:pomangam_client_flutter/_bases/network/repository/authorization_repository.dart';
 import 'package:pomangam_client_flutter/_bases/network/repository/resource_repository.dart';
 import 'package:pomangam_client_flutter/_bases/util/log_utils.dart';
-import 'package:pomangam_client_flutter/_bases/util/string_utils.dart';
 import 'package:pomangam_client_flutter/repositories/advertisement/advertisement_repository.dart';
 import 'package:pomangam_client_flutter/repositories/coupon/coupon_repository.dart';
 import 'package:pomangam_client_flutter/repositories/delivery/delivery_site_repository.dart';
@@ -18,6 +17,7 @@ import 'package:pomangam_client_flutter/repositories/point/point_repository.dart
 import 'package:pomangam_client_flutter/repositories/policy/policy_repository.dart';
 import 'package:pomangam_client_flutter/repositories/product/product_repository.dart';
 import 'package:pomangam_client_flutter/repositories/product/sub/product_sub_repository.dart';
+import 'package:pomangam_client_flutter/repositories/promotion/promotion_repository.dart';
 import 'package:pomangam_client_flutter/repositories/sign/sign_repository.dart';
 import 'package:pomangam_client_flutter/repositories/store/review/store_review_repository.dart';
 import 'package:pomangam_client_flutter/repositories/store/store_repository.dart';
@@ -199,7 +199,16 @@ class InjectorRegister {
         ..registerDependency<StoreReviewRepository>
           ((injector) => StoreReviewRepository(
             api: injector.getDependency<Api>()
+        ))
+
+      /// A dependency PromotionRepository provider.
+      ///
+      /// Calling it multiple times will return the same instance.
+        ..registerDependency<PromotionRepository>
+          ((injector) => PromotionRepository(
+            api: injector.getDependency<Api>()
         ));
+
 
 
       logWithDots('register', 'InjectorRegister.register', 'success');

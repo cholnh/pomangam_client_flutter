@@ -45,7 +45,7 @@ class ProductModel with ChangeNotifier {
       this.isProductFetched = true;
 
       // 카테고리 처리
-      idxProductSubCategory = product.productSubCategories.first.idx;
+      idxProductSubCategory = product?.productSubCategories?.first?.idx;
       Get.context.read<ProductSubCategoryModel>().changeIdxSelectedCategory(idxProductSubCategory);
 
     } catch (error) {

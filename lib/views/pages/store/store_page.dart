@@ -10,6 +10,7 @@ import 'package:pomangam_client_flutter/providers/store/store_view_model.dart';
 import 'package:pomangam_client_flutter/views/pages/_bases/custom_refresher.dart';
 import 'package:pomangam_client_flutter/views/widgets/cart/cart_widget.dart';
 import 'package:pomangam_client_flutter/views/widgets/store/store_app_bar.dart';
+import 'package:pomangam_client_flutter/views/widgets/store/store_carte_widget.dart';
 import 'package:pomangam_client_flutter/views/widgets/store/store_center_button_widget.dart';
 import 'package:pomangam_client_flutter/views/widgets/store/store_description_widget.dart';
 import 'package:pomangam_client_flutter/views/widgets/store/store_header_widget.dart';
@@ -83,9 +84,19 @@ class _StorePageState extends State<StorePage> {
           key: PmgKeys.storePage,
           slivers: <Widget>[
             StoreHeaderWidget(), // desc
-            StoreDescriptionWidget(),
+            Consumer<StoreModel>(
+              builder: (_, model, __) {
+                if(widget.sIdx != 1 || model.isStoreDescriptionOpened) {
+                  return StoreDescriptionWidget();  // Todo. 임시로 하드코딩 (추후변경)
+                }
+                return SliverToBoxAdapter(child: Container());
+              },
+            ),
             StoreCenterButtonWidget(),
-            StoreStoryWidget(),
+            if(widget.sIdx != 1)  // Todo. 임시로 하드코딩 (추후변경)
+              StoreStoryWidget()
+            else
+              StoreCarteWidget(),
             StoreProductCategoryWidget(
                 sIdx: widget.sIdx,
                 onChangedCategory: _onChangedCategory

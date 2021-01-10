@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
 import 'package:pomangam_client_flutter/_bases/util/string_utils.dart';
@@ -90,6 +89,7 @@ class PaymentCouponListWidget extends StatelessWidget {
       return;
     }
     if(coupon.isValid()) {
+      print('isSignIn : $isSignIn');
 
       if(isSignIn) {
         cartModel.cart.addCoupon(coupon);

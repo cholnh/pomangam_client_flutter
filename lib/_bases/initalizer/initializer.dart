@@ -29,6 +29,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 import 'data/order_data_initializer.dart';
 import 'data/product_data_initializer.dart';
+import 'data/promotion_data_initializer.dart';
 
 class Initializer {
 
@@ -138,7 +139,7 @@ class Initializer {
 
   Future<bool> initializeToken() async {
     _isServerDown = await initializeNetwork();
-    return _initializeToken();
+    return await _initializeToken();
   }
 
   Future<bool> _initializeToken() async
@@ -196,6 +197,7 @@ class Initializer {
         await deliverySiteDataInitialize(dIdx: dIdx);
         await deliveryDetailSiteDataInitialize(dIdx: dIdx, ddIdx: ddIdx);
         await orderTimeDataInitialize(dIdx: dIdx);
+        await promotionDataInitialize(dIdx: dIdx);
         await cartDataInitialize(subAddr: subAddr);
         await paymentDataInitialize();
         await couponDataInitialize();

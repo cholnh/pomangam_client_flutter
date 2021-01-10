@@ -3,10 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'package:pomangam_client_flutter/_bases/constants/endpoint.dart';
 import 'package:pomangam_client_flutter/domains/product/product_summary.dart';
-import 'package:pomangam_client_flutter/domains/product/product_type.dart';
 import 'package:pomangam_client_flutter/providers/product/product_model.dart';
 import 'package:pomangam_client_flutter/views/pages/product/product_page.dart';
 import 'package:pomangam_client_flutter/views/widgets/_bases/custom_dialog_utils.dart';
@@ -15,8 +13,9 @@ import 'package:provider/provider.dart';
 class StoreProductItemWidget extends StatelessWidget {
 
   final ProductSummary summary;
+  final int promotionDiscountCost;
 
-  StoreProductItemWidget({Key key, this.summary}): super(key: key);
+  StoreProductItemWidget({Key key, this.summary, this.promotionDiscountCost}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +42,8 @@ class StoreProductItemWidget extends StatelessWidget {
       ),
     );
   }
+
+
 
   Widget _mobile() {
     return Stack(
@@ -72,7 +73,8 @@ class StoreProductItemWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text('${summary.name}', style: TextStyle(color: Colors.white, fontSize: 12.0, fontWeight: FontWeight.w500)),
-              if(summary.salePrice != 0) Text('${summary.salePrice}', style: TextStyle(color: Colors.white, fontSize: 12.0, fontWeight: FontWeight.w500)),
+              if(promotionDiscountCost != 0) Text(' ${summary.salePrice} ', style: TextStyle(color: Colors.white, fontSize: 12.0, fontWeight: FontWeight.w500, decoration: TextDecoration.lineThrough)),
+              if(summary.salePrice != 0) Text('${promotionDiscountCost != 0 ? summary.salePrice - promotionDiscountCost : summary.salePrice}', style: TextStyle(color: Colors.white, fontSize: 12.0, fontWeight: FontWeight.w500)),
             ],
           ),
         ),
@@ -113,7 +115,8 @@ class StoreProductItemWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text('${summary.name}', style: TextStyle(color: Colors.white, fontSize: 12.0, fontWeight: FontWeight.w500)),
-              if(summary.salePrice != 0) Text('${summary.salePrice}', style: TextStyle(color: Colors.white, fontSize: 12.0, fontWeight: FontWeight.w500)),
+              if(promotionDiscountCost != 0) Text(' ${summary.salePrice} ', style: TextStyle(color: Colors.white, fontSize: 12.0, fontWeight: FontWeight.w500, decoration: TextDecoration.lineThrough)),
+              if(summary.salePrice != 0) Text('${promotionDiscountCost != 0 ? summary.salePrice - promotionDiscountCost : summary.salePrice}', style: TextStyle(color: Colors.white, fontSize: 12.0, fontWeight: FontWeight.w500)),
             ],
           ),
         )

@@ -17,6 +17,7 @@ class CartCollapsedWidget extends StatelessWidget {
     CartModel cartModel = Provider.of<CartModel>(context);
     int cartCount = cartModel.cart?.items?.length ?? 0;
     int totalPrice = cartModel.cart.totalPrice();
+
     return GestureDetector(
       onTap: _onSelected,
       child: Container(
@@ -78,4 +79,6 @@ class CartCollapsedWidget extends StatelessWidget {
     OrderModel orderModel = Get.context.read<OrderModel>();
     orderModel.clear();
   }
+
+
 }

@@ -46,6 +46,7 @@ class HomeContentsBarWidget extends StatelessWidget {
             );
           }
           bool isNextDay = model.userOrderDate?.isAfter(DateTime.now());
+          bool isTomorrow = model.userOrderDate.day - 1 == DateTime.now().day;
           var textArrivalDate = isNextDay ? ' (${DateFormat('MM월 dd일').format(model.userOrderDate)})' : '';
           int h = model.userOrderTime.getArrivalDateTime().hour;
           int m = model.userOrderTime.getArrivalDateTime().minute;
@@ -58,6 +59,7 @@ class HomeContentsBarWidget extends StatelessWidget {
               children: [
                 Row(
                   children: [
+                    isTomorrow ? Text('내일 ', style: TextStyle(fontSize: 15.0, color: Theme.of(context).primaryColor)) : Container(),
                     Text('$textArrivalTime', style: const TextStyle(fontSize: 15.0, color: Colors.black)),
                     Icon(Icons.arrow_drop_down, color: Theme.of(Get.context).primaryColor)
                   ],

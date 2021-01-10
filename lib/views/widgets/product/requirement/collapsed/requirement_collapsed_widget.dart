@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:pomangam_client_flutter/_bases/util/string_utils.dart';
+import 'package:pomangam_client_flutter/domains/promotion/promotion.dart';
 import 'package:pomangam_client_flutter/providers/product/product_model.dart';
+import 'package:pomangam_client_flutter/providers/promotion/promotion_model.dart';
 import 'package:provider/provider.dart';
 
 class RequirementCollapsedWidget extends StatelessWidget {
@@ -14,6 +16,7 @@ class RequirementCollapsedWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ProductModel productModel = Provider.of<ProductModel>(context);
+    int discountPrice = promotionDiscountCost(productModel.quantity);
     int totalPrice = productModel.totalPrice();
 
     return GestureDetector(
@@ -44,7 +47,7 @@ class RequirementCollapsedWidget extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(right: 20.0),
                   child: Text(
-                      '${StringUtils.comma(totalPrice)}원',
+                      '${StringUtils.comma(totalPrice - discountPrice)}원',
                       style: TextStyle(color: Theme.of(Get.context).backgroundColor, fontSize: 14.0)
                   ),
                 )
@@ -54,5 +57,14 @@ class RequirementCollapsedWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  int promotionDiscountCost(int q) {
+    int total = 0;
+    List<Promotion> promotions = Get.context.read<PromotionModel>().promotions;
+    for(Promotion promotion in promotions) {
+      total += promotion.discountCost;
+    }
+    return total * q;
   }
 }

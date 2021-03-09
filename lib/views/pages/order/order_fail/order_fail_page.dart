@@ -95,7 +95,10 @@ class OrderFailPage extends StatelessWidget {
             ),
             BottomButton(
               text: '홈으로',
-              onTap: () => Get.back(),
+              onTap: () {
+                Get.back();
+                Get.back();
+              }
             )
           ],
         ),

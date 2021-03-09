@@ -6,6 +6,7 @@ import 'package:pomangam_client_flutter/_bases/constants/endpoint.dart';
 import 'package:pomangam_client_flutter/_bases/util/string_utils.dart';
 import 'package:pomangam_client_flutter/_bases/util/toast_utils.dart';
 import 'package:pomangam_client_flutter/providers/order/order_model.dart';
+import 'package:pomangam_client_flutter/views/pages/_bases/base_page.dart';
 import 'package:pomangam_client_flutter/views/widgets/_bases/basic_app_bar.dart';
 import 'package:pomangam_client_flutter/views/widgets/_bases/bottom_button.dart';
 import 'package:provider/provider.dart';
@@ -95,7 +96,10 @@ class OrderVBankSuccessPage extends StatelessWidget {
             ),
             BottomButton(
               text: '홈으로',
-              onTap: () => Get.back(),
+              onTap: () {
+                Get.back();
+                Get.back();
+              },
             )
           ],
         ),

@@ -155,7 +155,7 @@ class Initializer {
         String phoneNumber = await _loadInPrefs(s.userPhoneNumber);
         if(token.tokenMode == TokenMode.LOGIN && phoneNumber.isNotEmpty) {
           try {
-            User userInfo = User.fromJson((await api.get(url: '/users/$phoneNumber')).data)
+            User userInfo = User.fromJson((await api.get(url: '/users/$phoneNumber', isOnError: false)).data)
               ..saveToDisk();
             Get.context.read<SignInModel>()
               ..userInfo = userInfo

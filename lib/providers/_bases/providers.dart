@@ -31,6 +31,7 @@ import 'package:pomangam_client_flutter/providers/store/store_product_category_m
 import 'package:pomangam_client_flutter/providers/store/store_summary_model.dart';
 import 'package:pomangam_client_flutter/providers/store/store_view_model.dart';
 import 'package:pomangam_client_flutter/providers/tab/tab_model.dart';
+import 'package:pomangam_client_flutter/providers/version/version_model.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
@@ -67,6 +68,6 @@ List<SingleChildWidget> providers = [
   ChangeNotifierProvider(create: (_) => FaqModel(), lazy: true),
   ChangeNotifierProvider(create: (_) => HelpModel(), lazy: true),
   ChangeNotifierProvider(create: (_) => StoreReviewModel(), lazy: true),
-  ChangeNotifierProvider(create: (_) => PromotionModel(), lazy: true)
-
+  ChangeNotifierProvider(create: (_) => PromotionModel(), lazy: true),
+  ChangeNotifierProvider(create: (_) => VersionModel(), lazy: true)
 ];

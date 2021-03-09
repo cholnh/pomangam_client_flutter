@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:injector/injector.dart';
 import 'package:pomangam_client_flutter/_bases/initalizer/initializer.dart';
 import 'package:pomangam_client_flutter/_bases/network/api/network_service.dart';
@@ -11,6 +12,9 @@ import 'package:pomangam_client_flutter/_bases/network/domain/token.dart';
 import 'package:pomangam_client_flutter/_bases/network/repository/authorization_repository.dart';
 import 'package:pomangam_client_flutter/_bases/network/repository/resource_repository.dart';
 import 'package:pomangam_client_flutter/domains/_bases/page_request.dart';
+import 'package:pomangam_client_flutter/providers/sign/sign_in_model.dart';
+import 'package:pomangam_client_flutter/views/pages/_bases/splash_page.dart';
+import 'package:provider/provider.dart';
 
 class Api implements NetworkService {
 
@@ -74,13 +78,14 @@ class Api implements NetworkService {
   Future<Response> get({
     @required String url,
     PageRequest pageRequest,
-    Function fallBack
+    Function fallBack,
+    bool isOnError = true
   }) {
     if(pageRequest != null) {
       url += url.contains('?') ? '&$pageRequest' :  '?$pageRequest';
     }
     Function logic = () => resourceRepository.get(url: url);
-    return logic().catchError((error) => _errorHandler(error, fallBack == null ? logic : fallBack));
+    return logic().catchError(isOnError ? (error) => _errorHandler(error, fallBack == null ? logic : fallBack) : (error){});
   }
 
 
@@ -95,10 +100,11 @@ class Api implements NetworkService {
   @override
   Future<Response> post({
     @required String url,
-    dynamic data
+    dynamic data,
+    bool isOnError = true
   }) {
     Function logic = () => resourceRepository.post(url: url, data: data);
-    return logic().catchError((error) => _errorHandler(error, logic));
+    return logic().catchError(isOnError ? (error) => _errorHandler(error, logic) : (error){});
   }
 
 
@@ -113,10 +119,11 @@ class Api implements NetworkService {
   @override
   Future<Response> patch({
     @required String url,
-    dynamic data
+    dynamic data,
+    bool isOnError = true
   }) {
     Function logic = () => resourceRepository.patch(url: url, data: data);
-    return logic().catchError((error) => _errorHandler(error, logic));
+    return logic().catchError(isOnError ? (error) => _errorHandler(error, logic) : (error){});
   }
 
 
@@ -132,10 +139,11 @@ class Api implements NetworkService {
   @override
   Future<Response> put({
     @required String url,
-    dynamic data
+    dynamic data,
+    bool isOnError = true
   }) {
     Function logic = () => resourceRepository.put(url: url, data: data);
-    return logic().catchError((error) => _errorHandler(error, logic));
+    return logic().catchError(isOnError ? (error) => _errorHandler(error, logic) : (error){});
   }
 
 
@@ -148,10 +156,11 @@ class Api implements NetworkService {
   ///
   @override
   Future<Response> delete({
-    @required String url
+    @required String url,
+    bool isOnError = true
   }) {
     Function logic = () => resourceRepository.delete(url: url);
-    return logic().catchError((error) => _errorHandler(error, logic));
+    return logic().catchError(isOnError ? (error) => _errorHandler(error, logic) : (error){});
   }
 
   _errorHandler(error, logic) async {
@@ -159,13 +168,24 @@ class Api implements NetworkService {
     if(error is DioError) {
       print('[Api _errorHandler] $error');
       switch(error?.response?.statusCode) {
-//        case HttpStatus.unauthorized: // 401
-//          await Injector.appInstance.getDependency<Initializer>()
-//            .initialize(
-//              onDone: logic,
-//              onServerError: () => print('[Debug] DioCore.interceptor!!server down..'),
-//            );
-//          break;
+       case HttpStatus.unauthorized: // 401
+          try {
+            await Injector.appInstance.getDependency<Initializer>().initializeToken();
+            //if(logic != null) logic();
+          } catch(e) {
+            print('shutdown - signout $e');
+            SignInModel signInModel = Get.context.read();
+            if(!signInModel.isSigningOut) {
+              await signInModel.signOut();
+              Get.offAll(SplashPage(), transition: Transition.fade);
+            }
+          }
+          // await Get.find(tag: 'initializer')
+          //   .initialize(
+          //     onDone: logic,
+          //     onServerError: () => print('[Debug] DioCore.interceptor!!server down..'),
+          //   );
+          break;
         default:
           break;
       }

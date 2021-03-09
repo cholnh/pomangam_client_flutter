@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:pomangam_client_flutter/views/pages/_bases/base_page.dart';
 import 'package:provider/provider.dart';
 import 'package:pomangam_client_flutter/domains/order/order_response.dart';
 import 'package:pomangam_client_flutter/providers/order/order_model.dart';
@@ -79,7 +81,10 @@ class OrderSuccessPage extends StatelessWidget {
             ),
             BottomButton(
               text: '홈으로',
-              onTap: () => Get.back(),
+              onTap: () {
+                Get.back();
+                Get.back();
+              },
             )
           ],
         ),

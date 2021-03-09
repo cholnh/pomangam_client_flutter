@@ -10,4 +10,5 @@ class PolicyRepository {
 
   Future<String> terms() async => (await api.get(url: '/policies/terms')).data;
 
+  Future<String> refund() async => (await api.get(url: '/policies/refund')).data;
 }

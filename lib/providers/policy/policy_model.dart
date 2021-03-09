@@ -8,6 +8,7 @@ class PolicyModel with ChangeNotifier {
 
   String htmlPrivacy;
   String htmlTerms;
+  String htmlRefund;
 
   PolicyModel() {
     _policyRepository = Injector.appInstance.getDependency<PolicyRepository>();
@@ -27,6 +28,15 @@ class PolicyModel with ChangeNotifier {
       htmlTerms = await _policyRepository.terms();
     } catch (error) {
       print('[Debug] PolicyModel.terms Error - $error');
+    }
+    notifyListeners();
+  }
+
+  Future<void> refund() async {
+    try {
+      htmlRefund = await _policyRepository.refund();
+    } catch (error) {
+      print('[Debug] PolicyModel.refund Error - $error');
     }
     notifyListeners();
   }

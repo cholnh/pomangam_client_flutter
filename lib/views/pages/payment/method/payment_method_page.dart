@@ -86,37 +86,35 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
                     ),
                     PaymentMethodCommonTypeWidget(
                       isFirst: true,
-                      isActive: false, // !kIsWeb,
+                      // isActive: false, // !kIsWeb,
                       paymentType: PaymentType.COMMON_CREDIT_CARD,
                       isSelected: viewPaymentType == PaymentType.COMMON_CREDIT_CARD,
                       onSelected: () => _onTypeSelected(PaymentType.COMMON_CREDIT_CARD),
-                      subtitle: '준비중' // !kIsWeb ? null : '앱 설치 후 사용 가능',
+                      // subtitle: '준비중' // !kIsWeb ? null : '앱 설치 후 사용 가능',
                     ),
                     PaymentMethodCommonTypeWidget(
                       paymentType: PaymentType.COMMON_V_BANK,
                       isSelected: viewPaymentType == PaymentType.COMMON_V_BANK,
-                      onSelected: isSignIn
-                          ? () => Get.to(PaymentVBankPage())
-                          : () => showSignModal(predicateUrl: Get.currentRoute),
+                      onSelected: () => Get.to(PaymentVBankPage()),
                     ),
                    // PaymentMethodCommonTypeWidget(
                    //   paymentType: PaymentType.COMMON_KAKAOPAY,
                    //   isSelected: viewPaymentType == PaymentType.COMMON_KAKAOPAY,
                    //   onSelected: () => _onTypeSelected(PaymentType.COMMON_KAKAOPAY),
                    // ),
+                   //  PaymentMethodCommonTypeWidget(
+                   //    isActive: false, // !kIsWeb,
+                   //    paymentType: PaymentType.COMMON_PHONE,
+                   //    isSelected: viewPaymentType == PaymentType.COMMON_PHONE,
+                   //    onSelected: () => _onTypeSelected(PaymentType.COMMON_PHONE),
+                   //    subtitle: '준비중' // !kIsWeb ? null : '앱 설치 후 사용 가능',
+                   //  ),
                     PaymentMethodCommonTypeWidget(
-                      isActive: false, // !kIsWeb,
-                      paymentType: PaymentType.COMMON_PHONE,
-                      isSelected: viewPaymentType == PaymentType.COMMON_PHONE,
-                      onSelected: () => _onTypeSelected(PaymentType.COMMON_PHONE),
-                      subtitle: '준비중' // !kIsWeb ? null : '앱 설치 후 사용 가능',
-                    ),
-                    PaymentMethodCommonTypeWidget(
-                      isActive: false, // !kIsWeb,
+                      // isActive: false, // !kIsWeb,
                       paymentType: PaymentType.COMMON_BANK,
                       isSelected: viewPaymentType == PaymentType.COMMON_BANK,
                       onSelected: () => _onTypeSelected(PaymentType.COMMON_BANK),
-                      subtitle: '준비중' // !kIsWeb ? null : '앱 설치 후 사용 가능',
+                      // subtitle: '준비중' // !kIsWeb ? null : '앱 설치 후 사용 가능',
                     ),
                    // PaymentMethodCommonTypeWidget(
                    //   paymentType: PaymentType.COMMON_REMOTE_PAY,
@@ -133,15 +131,15 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
                         : () => showSignModal(predicateUrl: Get.currentRoute),
                       subtitle: isSignIn ? null : '로그인후 사용가능',
                     ),
-                    PaymentMethodCommonTypeWidget(
-                      isActive: false, // isSignIn,
-                      paymentType: PaymentType.CONTACT_CASH,
-                      isSelected: viewPaymentType == PaymentType.CONTACT_CASH,
-                      onSelected: isSignIn
-                        ? () => _onTypeSelected(PaymentType.CONTACT_CASH)
-                        : () => showSignModal(predicateUrl: Get.currentRoute),
-                      subtitle: '준비중' // isSignIn ? null : '로그인후 사용가능',
-                    ),
+                    // PaymentMethodCommonTypeWidget(
+                    //   isActive: false, // isSignIn,
+                    //   paymentType: PaymentType.CONTACT_CASH,
+                    //   isSelected: viewPaymentType == PaymentType.CONTACT_CASH,
+                    //   onSelected: isSignIn
+                    //     ? () => _onTypeSelected(PaymentType.CONTACT_CASH)
+                    //     : () => showSignModal(predicateUrl: Get.currentRoute),
+                    //   subtitle: '준비중' // isSignIn ? null : '로그인후 사용가능',
+                    // ),
                   ],
                 ),
               ),

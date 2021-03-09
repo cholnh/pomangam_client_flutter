@@ -114,7 +114,7 @@ class _HomeContentsItemWidgetState extends State<HomeContentsItemWidget> {
   }
 
   void _navigateToStorePage() {
-    Get.to(StorePage(sIdx: widget.summary.idx), transition: Transition.cupertino, duration: Duration.zero);
+    Get.to(StorePage(sIdx: widget.summary.idx, isOrderable: widget.summary.quantityOrderable > 0 && _isOrderable), transition: Transition.cupertino, duration: Duration.zero);
   }
 
   String _subTitle() {

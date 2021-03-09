@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pomangam_client_flutter/_bases/constants/endpoint.dart';
+import 'package:pomangam_client_flutter/_bases/util/log_utils.dart';
 import 'package:pomangam_client_flutter/_bases/util/string_utils.dart';
 import 'package:pomangam_client_flutter/domains/cart/cart.dart';
 import 'package:pomangam_client_flutter/domains/order/order_request.dart';
@@ -19,6 +19,7 @@ import 'package:pomangam_client_flutter/views/pages/order/order_processing/order
 import 'package:pomangam_client_flutter/views/pages/payment/agreement/payment_agreement_page.dart';
 import 'package:pomangam_client_flutter/views/pages/payment/agreement/payment_agreement_page_type.dart';
 import 'package:pomangam_client_flutter/views/pages/payment/method/payment_method_page.dart';
+import 'package:pomangam_client_flutter/views/pages/payment/method/payment_phone_number_page.dart';
 import 'package:pomangam_client_flutter/views/widgets/_bases/custom_dialog_utils.dart';
 import 'package:pomangam_client_flutter/views/widgets/sign/sign_guide_modal.dart';
 import 'package:provider/provider.dart';
@@ -119,51 +120,56 @@ class CartPanelWidget extends StatelessWidget {
     if(orderModel.isOrderProcessing) return;
     orderModel.changeIsOrderProcessing(true);
 
-    Payment payment = Get.context.read<PaymentModel>().payment;
-    Cart cart = Get.context.read<CartModel>().cart;
+    try {
+      bool isSignIn = Get.context.read<SignInModel>().isSignIn();
+      Payment payment = Get.context.read<PaymentModel>().payment;
+      Cart cart = Get.context.read<CartModel>().cart;
 
-    if(payment.paymentType == PaymentType.COMMON_V_BANK && payment.vbankName.isNullOrBlank) {
-      DialogUtils.dialog(Get.context, '입금자명을 설정해주세요.');
-      orderModel.changeIsOrderProcessing(false);
-      return;
-    }
-
-    OrderRequest request = await OrderRequest.fromCartAndPayment(cart, payment);
-    print('req: $request');
-    OrderResponse response = await orderModel.save(orderRequest: request);
-
-    if(response != null) {
-      if(payment.paymentType == PaymentType.CONTACT_CREDIT_CARD ||
-          payment.paymentType == PaymentType.CONTACT_CASH ||
-          payment.paymentType == PaymentType.COMMON_V_BANK ||
-          cart.totalPrice() <= 0
-      ) {
-        if(payment.paymentType == PaymentType.COMMON_V_BANK) {
-          // 가상계좌 입금대기
-          orderModel.changeBootpayVbank(
-              oIdx: response.idx,
-              vbankPrice: response.paymentCost
-          );
-          orderModel.changeStatus(2);
-        }
-
-        // 대면 결제
-        if(kIsWeb) {
-          Get.to(OrderProcessingPage(), transition: Transition.fade);
-        } else {
-          Get.offAll(OrderProcessingPage(), transition: Transition.fade, predicate: (Route route) {
-            return route.isFirst;
-          });
-        }
-        orderModel.changeIsValidOrder(true);
-        Get.context.read<CartModel>().clear();
-        Get.context.read<SignInModel>().renewUserInfo();
-        Get.context.read<OrderInfoModel>().countToday();
-      } else {
-        orderModel.vbankClear();
-        Get.context.read<PgModel>().request(response);
+      if(payment.paymentType == PaymentType.COMMON_V_BANK && payment.vbankName.isNullOrBlank) {
+        DialogUtils.dialog(Get.context, '입금자명을 설정해주세요.');
+        return;
       }
-    } else {
+      if(!isSignIn && payment.phoneNumber.isNullOrBlank) {
+        DialogUtils.dialog(Get.context, '비회원은 핸드폰 번호를 설정해주세요.');
+        return;
+      }
+
+      OrderRequest request = await OrderRequest.fromCartAndPayment(cart, payment);
+      OrderResponse response = await orderModel.save(orderRequest: request);
+
+      if(response != null) {
+        if(payment.paymentType == PaymentType.CONTACT_CREDIT_CARD ||
+            payment.paymentType == PaymentType.CONTACT_CASH ||
+            payment.paymentType == PaymentType.COMMON_V_BANK ||
+            cart.totalPrice() <= 0
+        ) {
+          if(payment.paymentType == PaymentType.COMMON_V_BANK) {
+            // 가상계좌 입금대기
+            orderModel.changeBootpayVbank(
+                oIdx: response.idx,
+                vbankPrice: response.paymentCost
+            );
+            orderModel.status = 2;
+            //orderModel.changeStatus(2);
+          }
+
+          orderModel.isValidOrder = true;
+          //orderModel.changeIsValidOrder(true);
+          await Get.to(OrderProcessingPage(), transition: Transition.fade);
+
+          Get.context.read<CartModel>().clear();
+          Get.context.read<SignInModel>().renewUserInfo();
+          Get.context.read<OrderInfoModel>().countToday();
+        } else {
+          orderModel.vbankClear();
+          Get.context.read<PgModel>().request(response);
+        }
+      }
+    } catch(error) {
+      debug('[Debug] order_processing Error', error: error);
+      orderModel.changeIsValidOrder(false);
+      DialogUtils.dialog(Get.context, '오류 발생\n잠시후 다시 시도해주세요.', height: 150);
+    } finally {
       orderModel.changeIsOrderProcessing(false);
     }
   }
@@ -174,9 +180,26 @@ class CartPanelWidget extends StatelessWidget {
       Get.to(PaymentMethodPage(),
         transition: Transition.cupertino,
         duration: Duration.zero,
-      ).whenComplete(() {
+      )?.whenComplete(() {
         if(!kIsWeb) {
-          Navigator.pop(Get.overlayContext);
+          if(Navigator.canPop(Get.overlayContext)) {
+            Navigator.pop(Get.overlayContext);
+          }
+        }
+        _check();
+      });
+      return;
+    }
+    bool isSignIn = Get.context.read<SignInModel>().isSignIn();
+    if(!isSignIn && payment.phoneNumber.isNullOrBlank) {
+      Get.to(PaymentPhoneNumberPage(),
+        transition: Transition.cupertino,
+        duration: Duration.zero,
+      )?.whenComplete(() {
+        if(!kIsWeb) {
+          if(Navigator.canPop(Get.overlayContext)) {
+            Navigator.pop(Get.overlayContext);
+          }
         }
         _check();
       });
@@ -187,13 +210,19 @@ class CartPanelWidget extends StatelessWidget {
         arguments: PaymentAgreementPageType.FROM_CART,
         transition: Transition.cupertino,
         duration: Duration.zero,
-      ).whenComplete(() {
+      )?.whenComplete(() {
         if(!kIsWeb) {
-          Navigator.pop(Get.overlayContext);
+          if(Navigator.canPop(Get.overlayContext)) {
+            Navigator.pop(Get.overlayContext);
+          }
         }
         _check();
       });
       return;
+    }
+
+    if(Navigator.canPop(Get.overlayContext)) {
+      Navigator.pop(Get.overlayContext);
     }
     _saveOrder();
   }

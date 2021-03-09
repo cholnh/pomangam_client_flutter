@@ -91,7 +91,7 @@ class StoreSummary {
     this.storeSchedule = store.storeSchedule;
     this.avgStar = store.avgStar;
     this.cntLike = store.cntLike;
-    this.cntReview = store.cntComment;
+    this.cntReview = store.cntReview;
     this.sequence = store.sequence;
     this.brandImagePath = store.brandImagePath;
     this.storeImageMainPath = store.storeImageMainPath;

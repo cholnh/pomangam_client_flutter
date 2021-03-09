@@ -50,10 +50,13 @@ class OrderRequest {
 
   String vbankName;
 
+  String phoneNumber;
+
   OrderRequest({
     this.orderDate, this.idxOrderTime, this.idxDeliveryDetailSite, this.idxFcmToken,
     this.paymentType, this.usingPoint, this.usingCouponCode, this.idxesUsingCoupons,
-    this.idxesUsingPromotions, this.cashReceipt, this.cashReceiptType, this.orderItems, this.vbankName
+    this.idxesUsingPromotions, this.cashReceipt, this.cashReceiptType, this.orderItems, this.vbankName,
+    this.phoneNumber
   });
 
   Map<String, dynamic> toJson() => _$OrderRequestToJson(this);
@@ -74,7 +77,8 @@ class OrderRequest {
         cashReceipt: payment.cashReceipt?.cashReceiptNumber,
         cashReceiptType: payment.cashReceipt?.cashReceiptType,
         orderItems: OrderItemRequest.fromCartItems(cart.items),
-        vbankName: payment.vbankName
+        vbankName: payment.vbankName,
+        phoneNumber: payment.phoneNumber
     );
   }
 

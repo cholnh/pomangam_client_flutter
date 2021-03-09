@@ -18,12 +18,12 @@ class _OrderProcessingPageState extends State<OrderProcessingPage> {
 
   @override
   void initState() {
-    OrderModel orderModel = context.read();
-    Future.delayed(Duration(seconds: 10), () {
-      if(orderModel != null && orderModel.isVerifying) {
-        orderModel.clear();
-      }
-    });
+    // OrderModel orderModel = context.read();
+    // Future.delayed(Duration(seconds: 15), () {
+    //   if(orderModel != null && orderModel.isVerifying) {
+    //     orderModel.clear();
+    //   }
+    // });
     super.initState();
   }
 

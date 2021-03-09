@@ -13,6 +13,11 @@ import 'package:pomangam_client_flutter/views/widgets/store/store_product_item_w
 import 'package:provider/provider.dart';
 
 class StoreProductWidget extends StatelessWidget {
+
+  final bool isOrderable;
+
+  StoreProductWidget({this.isOrderable});
+
   @override
   Widget build(BuildContext context) {
     return Consumer<ProductSummaryModel>(
@@ -28,7 +33,8 @@ class StoreProductWidget extends StatelessWidget {
             return StoreProductItemWidget(
                 key: PmgKeys.storeProductItem(model.productSummaries[index].idx),
                 summary: model.productSummaries[index],
-                promotionDiscountCost: promotionDiscountCost()
+                promotionDiscountCost: promotionDiscountCost(),
+                isOrderable: isOrderable
             );
           },
           childCount: model.productSummaries.length)

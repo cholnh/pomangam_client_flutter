@@ -9,7 +9,6 @@ import 'package:pomangam_client_flutter/providers/home/home_view_model.dart';
 import 'package:pomangam_client_flutter/providers/order/order_info_model.dart';
 import 'package:pomangam_client_flutter/views/pages/home/home_page.dart';
 import 'package:pomangam_client_flutter/views/pages/order/order_info/order_info_page.dart';
-import 'package:pomangam_client_flutter/views/pages/periodic/periodic_landing_page.dart';
 import 'package:pomangam_client_flutter/views/pages/user_info/user_info_page.dart';
 import 'package:pomangam_client_flutter/views/widgets/_bases/help_widget.dart';
 import 'package:provider/provider.dart';

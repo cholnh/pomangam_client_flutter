@@ -24,8 +24,9 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 class StorePage extends StatefulWidget {
 
   final int sIdx;
+  final bool isOrderable;
 
-  StorePage({this.sIdx});
+  StorePage({this.sIdx, this.isOrderable});
 
   @override
   _StorePageState createState() => _StorePageState();
@@ -101,7 +102,7 @@ class _StorePageState extends State<StorePage> {
                 sIdx: widget.sIdx,
                 onChangedCategory: _onChangedCategory
             ),
-            StoreProductWidget(),
+            StoreProductWidget(isOrderable: widget.isOrderable),
             SliverToBoxAdapter(
               child: Container(height: isShowCart ? 55.0 : 0.0),
             )

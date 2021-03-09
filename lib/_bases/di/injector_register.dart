@@ -21,6 +21,7 @@ import 'package:pomangam_client_flutter/repositories/promotion/promotion_reposit
 import 'package:pomangam_client_flutter/repositories/sign/sign_repository.dart';
 import 'package:pomangam_client_flutter/repositories/store/review/store_review_repository.dart';
 import 'package:pomangam_client_flutter/repositories/store/store_repository.dart';
+import 'package:pomangam_client_flutter/repositories/version/version_repository.dart';
 
 class InjectorRegister {
 
@@ -206,6 +207,15 @@ class InjectorRegister {
       /// Calling it multiple times will return the same instance.
         ..registerDependency<PromotionRepository>
           ((injector) => PromotionRepository(
+            api: injector.getDependency<Api>()
+        ))
+
+
+      /// A dependency VersionRepository provider.
+      ///
+      /// Calling it multiple times will return the same instance.
+        ..registerDependency<VersionRepository>
+          ((injector) => VersionRepository(
             api: injector.getDependency<Api>()
         ));
 

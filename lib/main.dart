@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'dart:isolate';
 import 'package:device_preview/device_preview.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_google_maps/flutter_google_maps.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -18,18 +21,22 @@ void main() {
   GoogleMap.init('AIzaSyCfgL80z55BPeCaCQSfiyabWK_J8YJkd5s');
   WidgetsFlutterBinding.ensureInitialized();
   InjectorRegister.register();
-  //  Crashlytics.instance.enableInDevMode = true;
-//  FlutterError.onError = Crashlytics.instance.recordFlutterError;
-//  Isolate.current.addErrorListener(RawReceivePort((pair) async {
-//    final List<dynamic> errorAndStacktrace = pair;
-//    await Crashlytics.instance.recordError(
-//      errorAndStacktrace.first,
-//      errorAndStacktrace.last,
-//    );
-//  }).sendPort);
-//  runZoned(() {
-//    runApp(MyApp());
-//  }, onError: Crashlytics.instance.recordError);
+
+  if(!kIsWeb) {
+    Crashlytics.instance.enableInDevMode = true;
+    FlutterError.onError = Crashlytics.instance.recordFlutterError;
+    Isolate.current.addErrorListener(RawReceivePort((pair) async {
+      final List<dynamic> errorAndStacktrace = pair;
+      await Crashlytics.instance.recordError(
+        errorAndStacktrace.first,
+        errorAndStacktrace.last,
+      );
+    }).sendPort);
+  }
+
+  runZoned(() {
+   runApp(MyApp());
+  }, onError: Crashlytics.instance.recordError);
 
   runZonedGuarded(() {
      runApp(MyApp());

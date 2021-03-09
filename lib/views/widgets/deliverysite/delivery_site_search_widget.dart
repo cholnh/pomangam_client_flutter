@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pomangam_client_flutter/_bases/constants/endpoint.dart';
 import 'package:pomangam_client_flutter/providers/deliverysite/delivery_site_model.dart';
 import 'package:provider/provider.dart';
 

@@ -1,7 +1,10 @@
+import 'package:get/get.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:pomangam_client_flutter/_bases/constants/initial_value.dart';
 import 'package:pomangam_client_flutter/domains/payment/cash_receipt/cash_receipt.dart';
 import 'package:pomangam_client_flutter/domains/payment/payment_type.dart';
+import 'package:pomangam_client_flutter/providers/sign/sign_in_model.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pomangam_client_flutter/_bases/key/shared_preference_key.dart' as s;
 
@@ -22,12 +25,15 @@ class Payment {
 
   String vbankName;
 
+  String phoneNumber;
+
   Payment({
     this.paymentType,
     this.cashReceipt,
     this.isPaymentAgree,
     this.paymentAgreeDate,
-    this.vbankName
+    this.vbankName,
+    this.phoneNumber
   });
 
   factory Payment.fromJson(Map<String, dynamic> json) => _$PaymentFromJson(json);
@@ -45,6 +51,9 @@ class Payment {
     isPaymentAgree = pref.getBool(s.isPaymentAgree) ?? initialIsPaymentAgree;
     paymentAgreeDate = pref.getString(s.paymentAgreeDate) != null ? DateTime.parse(pref.getString(s.paymentAgreeDate)) : null;
     vbankName = pref.getString(s.vbankName);
+    phoneNumber = Get.context.read<SignInModel>().isSignIn()
+      ? pref.getString(s.userPhoneNumber)
+      : pref.getString(s.guestPhoneNumber);
   }
 
   bool isReadyPayment() {
@@ -91,5 +100,11 @@ class Payment {
     SharedPreferences pref = await SharedPreferences.getInstance();
     pref.setString(s.vbankName, vbankName);
     this.vbankName = vbankName;
+  }
+
+  Future<void> savePhoneNumber(String phoneNumber) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setString(s.guestPhoneNumber, phoneNumber);
+    this.phoneNumber = phoneNumber;
   }
 }

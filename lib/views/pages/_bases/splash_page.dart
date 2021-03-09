@@ -1,14 +1,21 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_animation_set/widget/transition_animations.dart';
 import 'package:get/get.dart';
+import 'package:in_app_update/in_app_update.dart';
 import 'package:injector/injector.dart';
 import 'package:package_info/package_info.dart';
 import 'package:pomangam_client_flutter/_bases/i18n/i18n.dart';
 import 'package:pomangam_client_flutter/_bases/initalizer/initializer.dart';
+import 'package:pomangam_client_flutter/_bases/util/log_utils.dart';
+import 'package:pomangam_client_flutter/_bases/util/toast_utils.dart';
+import 'package:pomangam_client_flutter/domains/version/version.dart';
+import 'package:pomangam_client_flutter/providers/version/version_model.dart';
 import 'package:pomangam_client_flutter/views/pages/_bases/error_page.dart';
 import 'package:pomangam_client_flutter/views/pages/deliverysite/delivery_site_page.dart';
 import 'package:pomangam_client_flutter/views/pages/deliverysite/delivery_site_page_type.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'base_page.dart';
@@ -20,12 +27,13 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
 
+  AppUpdateInfo _updateInfo;
+
   String version;
   String buildNumber;
 
   @override
   void initState() {
-    _appVersion();
     _readyInitialize(); // 초기화 준비
     super.initState();
   }
@@ -88,6 +96,41 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   void _readyInitialize() async {
+    if(!kIsWeb) {
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
+      setState(() {
+        this.version = packageInfo.version;
+        this.buildNumber = packageInfo.buildNumber;
+      });
+
+      await InAppUpdate.checkForUpdate().then((info) {
+        _updateInfo = info;
+        logWithDots('checkForUpdate', 'InAppUpdate.checkForUpdate', 'success');
+      }).catchError((e) => _showError(e, where: 'checkForUpdate'));
+
+      Version version = await context.read<VersionModel>().fetch();
+      if(version != null) {
+        final int currentVersion = int.parse(buildNumber);
+        final int latestVersion = version.latestVersion;
+        final int minimumVersion = version.minimumVersion;
+
+        if(_updateInfo?.updateAvailable ?? false) {
+          if(latestVersion > currentVersion && currentVersion >= minimumVersion) {
+            // 백그라운드 Update
+            await InAppUpdate.startFlexibleUpdate().then((_) {
+              logWithDots('startFlexibleUpdate', 'InAppUpdate.startFlexibleUpdate', 'success');
+            }).catchError((e) => _showError(e, where: 'startFlexibleUpdate'));
+          } else if(minimumVersion > currentVersion) {
+            // 강제 Update
+            await InAppUpdate.performImmediateUpdate()
+              .then((_) => logWithDots('performImmediateUpdate', 'InAppUpdate.performImmediateUpdate', 'success'))
+              .catchError((e) => _showError(e, where: 'performImmediateUpdate'));
+          }
+        }
+      }
+    }
+
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       Injector.appInstance.getDependency<Initializer>()
         .initialize(
@@ -95,15 +138,6 @@ class _SplashPageState extends State<SplashPage> {
           onServerError: _onServerError,
           deliverySiteNotIssuedHandler: _deliverySiteNotIssuedHandler
         ).catchError((err) => _onServerError());
-    });
-  }
-
-  void _appVersion() async {
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-
-    setState(() {
-      this.version = packageInfo.version;
-      this.buildNumber = packageInfo.buildNumber;
     });
   }
 
@@ -125,5 +159,10 @@ class _SplashPageState extends State<SplashPage> {
     for(String key in prefs.getKeys()) {
       print('key: $key / value: ${prefs.get(key)}');
     }
+  }
+
+  void _showError(dynamic exception, {String where}) {
+    logWithDots('initialize', 'InAppUpdate.$where', 'failed', error: exception);
+    ToastUtils.showToast(msg: exception.toString());
   }
 }

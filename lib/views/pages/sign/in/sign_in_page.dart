@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:pomangam_client_flutter/_bases/constants/endpoint.dart';
 import 'package:pomangam_client_flutter/_bases/util/string_utils.dart';
+import 'package:pomangam_client_flutter/providers/payment/payment_model.dart';
 import 'package:pomangam_client_flutter/providers/sign/sign_in_fail_type.dart';
 import 'package:pomangam_client_flutter/providers/sign/sign_up_model.dart';
 import 'package:pomangam_client_flutter/views/pages/_bases/base_page.dart';
@@ -19,6 +20,8 @@ import 'package:pomangam_client_flutter/views/widgets/sign/in/sign_in_phone_numb
 import 'package:pomangam_client_flutter/views/widgets/sign/in/sign_in_phone_number_input_widget.dart';
 import 'package:pomangam_client_flutter/views/widgets/sign/sign_app_bar.dart';
 import 'package:provider/provider.dart';
+import 'package:pomangam_client_flutter/_bases/key/shared_preference_key.dart' as s;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignInPage extends StatefulWidget {
 
@@ -41,11 +44,22 @@ class _SignInPageState extends State<SignInPage> {
     _phoneNumberEditingController = TextEditingController();
     _authCodeEditingController = TextEditingController();
 
-    Provider.of<SignInModel>(context, listen: false)
+    context.read<SignInModel>()
     ..signInViewType = SignInViewType.PHONE_NUMBER_VIEW
     ..authCodeSendCount = 0;
 
-    _phoneNumberEditingController.text = '010 ';
+    String guestPhoneNumber = context.read<PaymentModel>().payment.phoneNumber;
+    if(guestPhoneNumber.isNullOrBlank) {
+      _phoneNumberEditingController.text = '010 ';
+    } else {
+      String pn = '';
+      List digits = guestPhoneNumber.split('');
+      digits.insert(7, ' ');
+      digits.insert(3, ' ');
+      digits.forEach((digit) => pn += digit);
+      _phoneNumberEditingController.text = pn;
+    }
+
     _authCodeEditingController.clear();
 
   }

@@ -30,7 +30,7 @@ class Store extends EntityAuditing {
   int cntLike;
 
   /// 총 리뷰 개수
-  int cntComment;
+  int cntReview;
 
   /// 총 주문 개수
   int cntOrder;
@@ -59,7 +59,7 @@ class Store extends EntityAuditing {
   Store({
     int idx, DateTime registerDate, DateTime modifyDate,
     this.storeInfo, this.productionInfo, this.storeSchedule,
-    this.avgStar, this.cntLike, this.cntComment, this.cntOrder, this.sequence,
+    this.avgStar, this.cntLike, this.cntReview, this.cntOrder, this.sequence,
     this.brandImagePath, this.storeImageMainPath, this.storeImageSubPaths,
     this.productCategories, this.stories, this.isLike
   }): super(idx: idx, registerDate: registerDate, modifyDate: modifyDate);

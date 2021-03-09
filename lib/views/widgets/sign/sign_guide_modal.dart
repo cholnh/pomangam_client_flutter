@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pomangam_client_flutter/providers/sign/sign_up_model.dart';
@@ -79,12 +78,14 @@ class SignGuideModal extends StatelessWidget {
                         width: MediaQuery.of(context).size.width,
                         child: Center(
                           child: Text(
-                            kIsWeb ? '앱 설치 시, 비회원 주문이 가능합니다.' : '비회원으로 주문하기',
+                            // kIsWeb ? '앱 설치 시, 비회원 주문이 가능합니다.' : '비회원으로 주문하기',
+                            '비회원으로 주문하기',
                             style: TextStyle(color: Colors.grey, fontSize: 14.0))
                         ),
                       ),
                     ),
-                    onTap: kIsWeb ? (){} : onGuestOrder,
+                    // onTap: kIsWeb ? (){} : onGuestOrder,
+                    onTap: onGuestOrder
                   ),
                 ],
               ),

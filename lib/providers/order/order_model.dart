@@ -30,6 +30,7 @@ class OrderModel with ChangeNotifier {
       this.orderResponse = await _orderRepository.saveOrder(orderRequest: orderRequest);
     } catch (error) {
       print('[Debug] OrderModel.saveOrder Error - $error');
+      return null;
     }
     notifyListeners();
     return this.orderResponse;
@@ -41,6 +42,8 @@ class OrderModel with ChangeNotifier {
   }) async {
     isVerifying = true;
     isValidOrder = false;
+    notifyListeners();
+
     try {
       if(receiptId != null && receiptId.isNotEmpty) {
         this.isValidOrder = await _orderRepository.verify(oIdx: oIdx, receiptId: receiptId);

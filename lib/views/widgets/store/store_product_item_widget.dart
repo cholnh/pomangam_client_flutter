@@ -14,19 +14,20 @@ class StoreProductItemWidget extends StatelessWidget {
 
   final ProductSummary summary;
   final int promotionDiscountCost;
+  final bool isOrderable;
 
-  StoreProductItemWidget({Key key, this.summary, this.promotionDiscountCost}): super(key: key);
+  StoreProductItemWidget({Key key, this.summary, this.promotionDiscountCost, this.isOrderable}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: summary.isTempActive
-        ? () => _navigateToProductPage(context)
-        : () => DialogUtils.dialog(context, '품절되었습니다.'),
+      onTap: !summary.isTempActive || !isOrderable
+        ? () => DialogUtils.dialog(context, '품절되었습니다.')
+        : () => _navigateToProductPage(context),
       child: Stack(
         children: [
           Opacity(
-            opacity: summary.isTempActive ? 1.0 : 0.5,
+            opacity: !summary.isTempActive || !isOrderable ? 0.5 : 1.0,
             child: Container(
               key: key,
               decoration: BoxDecoration(
@@ -35,7 +36,7 @@ class StoreProductItemWidget extends StatelessWidget {
               child: kIsWeb ? _web() : _mobile(),
             ),
           ),
-          if(!summary.isTempActive) Center(
+          if(!summary.isTempActive || !isOrderable) Center(
               child: Text('품절', style: TextStyle(color: Colors.black, fontSize: 18.0, fontWeight: FontWeight.bold))
           ),
         ],

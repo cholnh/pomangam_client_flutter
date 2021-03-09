@@ -28,6 +28,7 @@ class OrderResponse extends EntityAuditing {
   int boxNumber;
   PaymentType paymentType;
   OrdererType ordererType;
+  String phoneNumber;
 
   // 결제 정보
   int usingPoint;
@@ -58,7 +59,7 @@ class OrderResponse extends EntityAuditing {
   OrderResponse({
     int idx, DateTime registerDate, DateTime modifyDate,
     this.orderType, this.boxNumber, this.paymentType,
-    this.ordererType, this.usingPoint, this.usingCoupons,
+    this.ordererType, this.phoneNumber, this.usingPoint, this.usingCoupons,
     this.usingPromotions, this.savedPoint, this.cashReceipt, this.totalCost,
     this.discountCost, this.paymentCost, this.idxDeliverySite,
     this.idxDeliveryDetailSite, this.nameDeliverySite,
@@ -123,7 +124,7 @@ class OrderResponse extends EntityAuditing {
   Future<BootpayUser.User> user() async {
     SignInModel model = Get.context.read<SignInModel>();
     BootpayUser.User user = BootpayUser.User();
-    if(await model.isSignIn()) {
+    if(model.isSignIn()) {
       PomangamUser.User userInfo = model.userInfo;
       user.username = userInfo.name;
       user.area = '$nameDeliverySite $nameDeliveryDetailSite';
@@ -131,6 +132,7 @@ class OrderResponse extends EntityAuditing {
     } else {
       user.username = '';
       user.area = '$nameDeliverySite $nameDeliveryDetailSite';
+      user.phone = this.phoneNumber;
     }
     return user;
   }

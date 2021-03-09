@@ -51,7 +51,7 @@ class CsPage extends StatelessWidget {
                         )),
                         GestureDetector(
                           onTap: _phone,
-                          child: Text('  0507-1300-6906', style: TextStyle(
+                          child: Text('  0507-1386-4446', style: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.bold,
                               color: Theme.of(context).textTheme.headline1.color

@@ -35,4 +35,5 @@ const String cashReceiptType = '__cash_receipt_type__';
 const String isPaymentAgree = '__is_payment_agree__';
 const String paymentAgreeDate = '__payment_agree_date__';
 const String vbankName = '__vbank_name__';
+const String guestPhoneNumber = '__guest_phone_number__';
 
